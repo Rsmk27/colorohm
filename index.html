@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resistor Color Code Calculator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light grey background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        .resistor-band {
+            width: 15px; /* Fixed width for bands */
+            height: 60px; /* Fixed height for bands */
+            border-radius: 4px;
+            margin: 0 2px;
+            box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+        }
+        /* Specific styles for the body of the resistor */
+        .resistor-body {
+            background-color: #f7d794; /* Light yellowish-brown for resistor body */
+            height: 60px;
+            width: 180px; /* Width of the resistor body */
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .resistor-lead {
+            width: 30px; /* Length of the lead */
+            height: 3px; /* Thickness of the lead */
+            background-color: #888; /* Grey color for leads */
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .resistor-lead.left {
+            left: -30px;
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+        }
+        .resistor-lead.right {
+            right: -30px;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+        }
+        /* Custom select styling for better appearance */
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%236B7280' d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 6.757 7.586 5.343 9z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 0.8rem 0.8rem;
+            padding-right: 2.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Resistor Color Code Calculator</h1>
+
+        <!-- Mode Toggle -->
+        <div class="flex justify-center mb-6">
+            <button id="modeColorToResistance" class="px-6 py-3 rounded-l-lg font-semibold text-lg transition-all duration-300 ease-in-out bg-blue-600 text-white shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                Color to Resistance
+            </button>
+            <button id="modeResistanceToColor" class="px-6 py-3 rounded-r-lg font-semibold text-lg transition-all duration-300 ease-in-out bg-gray-200 text-gray-700 shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                Resistance to Color
+            </button>
+        </div>
+
+        <!-- Resistor Display -->
+        <div class="flex justify-center items-center my-8">
+            <div class="resistor-lead left"></div>
+            <div id="resistorBody" class="resistor-body flex justify-around items-center">
+                <div id="band1" class="resistor-band"></div>
+                <div id="band2" class="resistor-band"></div>
+                <div id="band3" class="resistor-band hidden"></div> <!-- Optional 3rd band for 5-band -->
+                <div id="multiplier" class="resistor-band"></div>
+                <div id="tolerance" class="resistor-band ml-auto mr-0"></div> <!-- Tolerance band shifted right -->
+            </div>
+            <div class="resistor-lead right"></div>
+        </div>
+
+        <!-- Color to Resistance Calculator Section -->
+        <div id="colorToResistanceSection" class="active-section">
+            <p class="text-center text-gray-600 mb-4">Select the colors on the resistor bands to calculate its resistance.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div>
+                    <label for="band1Select" class="block text-gray-700 text-sm font-semibold mb-2">Band 1 (First Digit):</label>
+                    <select id="band1Select" class="block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-800">
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div>
+                    <label for="band2Select" class="block text-gray-700 text-sm font-semibold mb-2">Band 2 (Second Digit):</label>
+                    <select id="band2Select" class="block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-800">
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div>
+                    <label for="band3Select" class="block text-gray-700 text-sm font-semibold mb-2">Band 3 (Third Digit - 5-Band):</label>
+                    <select id="band3Select" class="block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-800">
+                        <option value="none">N/A (4-Band Resistor)</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div>
+                    <label for="multiplierSelect" class="block text-gray-700 text-sm font-semibold mb-2">Multiplier:</label>
+                    <select id="multiplierSelect" class="block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-800">
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div class="md:col-span-2">
+                    <label for="toleranceSelect" class="block text-gray-700 text-sm font-semibold mb-2">Tolerance:</label>
+                    <select id="toleranceSelect" class="block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-800">
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+            </div>
+            <div class="text-center bg-blue-50 p-4 rounded-lg shadow-inner">
+                <p class="text-lg font-semibold text-blue-800">Calculated Resistance:</p>
+                <p id="result" class="text-2xl font-bold text-blue-900 mt-2">0 Ohms ± 0%</p>
+            </div>
+        </div>
+
+        <!-- Resistance to Color Predictor Section -->
+        <div id="resistanceToColorSection" class="hidden">
+            <p class="text-center text-gray-600 mb-4">Enter a resistance value to see its corresponding color bands.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div>
+                    <label for="resistanceValueInput" class="block text-gray-700 text-sm font-semibold mb-2">Resistance Value:</label>
+                    <input type="number" id="resistanceValueInput" class="block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-800" placeholder="e.g., 100, 4.7, 1000000">
+                </div>
+                <div>
+                    <label for="resistanceUnitSelect" class="block text-gray-700 text-sm font-semibold mb-2">Unit:</label>
+                    <select id="resistanceUnitSelect" class="block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-800">
+                        <option value="1">Ohms (Ω)</option>
+                        <option value="1000">kOhms (kΩ)</option>
+                        <option value="1000000">MOhms (MΩ)</option>
+                        <option value="1000000000">GOhms (GΩ)</option>
+                    </select>
+                </div>
+                <div class="md:col-span-2">
+                    <label for="predictedToleranceSelect" class="block text-gray-700 text-sm font-semibold mb-2">Desired Tolerance:</label>
+                    <select id="predictedToleranceSelect" class="block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-800">
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+            </div>
+            <div class="text-center bg-green-50 p-4 rounded-lg shadow-inner">
+                <p class="text-lg font-semibold text-green-800">Predicted Color Bands:</p>
+                <p id="predictedResult" class="text-xl font-bold text-green-900 mt-2">Enter value to predict colors</p>
+                <p id="predictionWarning" class="text-sm text-red-600 mt-2 hidden">Invalid resistance value or cannot be represented with standard bands.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Define color codes and their values
+        const colorCodes = {
+            'black': { digit: 0, multiplier: 1, tolerance: null },
+            'brown': { digit: 1, multiplier: 10, tolerance: 1 },
+            'red': { digit: 2, multiplier: 100, tolerance: 2 },
+            'orange': { digit: 3, multiplier: 1000, tolerance: null },
+            'yellow': { digit: 4, multiplier: 10000, tolerance: null },
+            'green': { digit: 5, multiplier: 100000, tolerance: 0.5 },
+            'blue': { digit: 6, multiplier: 1000000, tolerance: 0.25 },
+            'violet': { digit: 7, multiplier: 10000000, tolerance: 0.1 },
+            'grey': { digit: 8, multiplier: 100000000, tolerance: 0.05 },
+            'white': { digit: 9, multiplier: 1000000000, tolerance: null },
+            'gold': { digit: null, multiplier: 0.1, tolerance: 5 },
+            'silver': { digit: null, multiplier: 0.01, tolerance: 10 },
+            'none': { digit: null, multiplier: null, tolerance: 20 } // For 4-band tolerance
+        };
+
+        // Map for easy lookup of color names by digit/multiplier/tolerance value
+        const digitColors = Object.keys(colorCodes).filter(color => colorCodes[color].digit !== null)
+                                .reduce((acc, color) => {
+                                    acc[colorCodes[color].digit] = color;
+                                    return acc;
+                                }, {});
+
+        const multiplierColors = Object.keys(colorCodes).filter(color => colorCodes[color].multiplier !== null)
+                                .reduce((acc, color) => {
+                                    acc[colorCodes[color].multiplier] = color;
+                                    return acc;
+                                }, {});
+
+        const toleranceColors = Object.keys(colorCodes).filter(color => colorCodes[color].tolerance !== null)
+                                .reduce((acc, color) => {
+                                    acc[colorCodes[color].tolerance] = color;
+                                    return acc;
+                                }, {});
+
+        // DOM elements for Color to Resistance Calculator
+        const band1Select = document.getElementById('band1Select');
+        const band2Select = document.getElementById('band2Select');
+        const band3Select = document.getElementById('band3Select');
+        const multiplierSelect = document.getElementById('multiplierSelect');
+        const toleranceSelect = document.getElementById('toleranceSelect');
+        const resultDisplay = document.getElementById('result');
+
+        // DOM elements for Resistance to Color Predictor
+        const resistanceValueInput = document.getElementById('resistanceValueInput');
+        const resistanceUnitSelect = document.getElementById('resistanceUnitSelect');
+        const predictedToleranceSelect = document.getElementById('predictedToleranceSelect');
+        const predictedResultDisplay = document.getElementById('predictedResult');
+        const predictionWarning = document.getElementById('predictionWarning');
+
+        // DOM elements for Resistor Display
+        const band1Div = document.getElementById('band1');
+        const band2Div = document.getElementById('band2');
+        const band3Div = document.getElementById('band3');
+        const multiplierDiv = document.getElementById('multiplier');
+        const toleranceDiv = document.getElementById('tolerance');
+
+        // Mode Toggles
+        const modeColorToResistanceBtn = document.getElementById('modeColorToResistance');
+        const modeResistanceToColorBtn = document.getElementById('modeResistanceToColor');
+        const colorToResistanceSection = document.getElementById('colorToResistanceSection');
+        const resistanceToColorSection = document.getElementById('resistanceToColorSection');
+
+        let currentMode = 'colorToResistance'; // Initial mode
+
+        /**
+         * Populates a select element with options based on provided data.
+         * @param {HTMLElement} selectElement - The select element to populate.
+         * @param {Object} data - An object where keys are display names and values are option values.
+         * @param {string} type - The type of band (e.g., 'digit', 'multiplier', 'tolerance').
+         * @param {boolean} includeNone - Whether to include a 'None' option for 4-band resistors.
+         */
+        function populateSelect(selectElement, data, type, includeNone = false) {
+            selectElement.innerHTML = ''; // Clear existing options
+
+            if (includeNone) {
+                const option = document.createElement('option');
+                option.value = 'none';
+                option.textContent = 'N/A (4-Band Resistor)';
+                selectElement.appendChild(option);
+            }
+
+            for (const color in colorCodes) {
+                if (colorCodes[color][type] !== null) {
+                    const option = document.createElement('option');
+                    option.value = color;
+                    let textContent = color.charAt(0).toUpperCase() + color.slice(1); // Capitalize first letter
+                    if (type === 'digit') {
+                        textContent += ` (${colorCodes[color].digit})`;
+                    } else if (type === 'multiplier') {
+                        const multiplierValue = colorCodes[color].multiplier;
+                        if (multiplierValue >= 1) {
+                            textContent += ` (x${multiplierValue})`;
+                        } else {
+                            textContent += ` (x${multiplierValue})`;
+                        }
+                    } else if (type === 'tolerance') {
+                        textContent += ` (±${colorCodes[color].tolerance}%)`;
+                    }
+                    option.textContent = textContent;
+                    selectElement.appendChild(option);
+                }
+            }
+        }
+
+        /**
+         * Updates the visual resistor bands based on selected colors.
+         * @param {string} band1Color - Color for band 1.
+         * @param {string} band2Color - Color for band 2.
+         * @param {string} band3Color - Color for band 3 (or 'none' for 4-band).
+         * @param {string} multiplierColor - Color for multiplier band.
+         * @param {string} toleranceColor - Color for tolerance band.
+         */
+        function updateResistorDisplay(band1Color, band2Color, band3Color, multiplierColor, toleranceColor) {
+            band1Div.style.backgroundColor = band1Color;
+            band2Div.style.backgroundColor = band2Color;
+            multiplierDiv.style.backgroundColor = multiplierColor;
+            toleranceDiv.style.backgroundColor = toleranceColor;
+
+            if (band3Color && band3Color !== 'none') {
+                band3Div.style.backgroundColor = band3Color;
+                band3Div.classList.remove('hidden');
+            } else {
+                band3Div.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Calculates resistance from color bands.
+         */
+        function calculateResistance() {
+            const band1 = colorCodes[band1Select.value].digit;
+            const band2 = colorCodes[band2Select.value].digit;
+            const band3 = band3Select.value !== 'none' ? colorCodes[band3Select.value].digit : null;
+            const multiplier = colorCodes[multiplierSelect.value].multiplier;
+            const tolerance = colorCodes[toleranceSelect.value].tolerance;
+
+            let resistanceValue;
+            if (band3 !== null) { // 5-band resistor
+                resistanceValue = (band1 * 100 + band2 * 10 + band3) * multiplier;
+            } else { // 4-band resistor
+                resistanceValue = (band1 * 10 + band2) * multiplier;
+            }
+
+            resultDisplay.textContent = formatResistance(resistanceValue) + ` ± ${tolerance}%`;
+            updateResistorDisplay(band1Select.value, band2Select.value, band3Select.value, multiplierSelect.value, toleranceSelect.value);
+        }
+
+        /**
+         * Formats a raw resistance value into human-readable Ohms, kOhms, MOhms, GOhms.
+         * @param {number} value - The resistance value in Ohms.
+         * @returns {string} Formatted resistance string.
+         */
+        function formatResistance(value) {
+            if (value >= 1000000000) {
+                return `${(value / 1000000000).toFixed(2)} GOhms`;
+            } else if (value >= 1000000) {
+                return `${(value / 1000000).toFixed(2)} MOhms`;
+            } else if (value >= 1000) {
+                return `${(value / 1000).toFixed(2)} kOhms`;
+            } else {
+                return `${value.toFixed(2)} Ohms`;
+            }
+        }
+
+        /**
+         * Predicts color bands from a resistance value.
+         */
+        function predictColors() {
+            const inputValue = parseFloat(resistanceValueInput.value);
+            const unitMultiplier = parseFloat(resistanceUnitSelect.value);
+            const desiredTolerance = parseFloat(predictedToleranceSelect.value);
+
+            if (isNaN(inputValue) || inputValue < 0) {
+                predictedResultDisplay.textContent = "Please enter a valid number.";
+                predictionWarning.classList.remove('hidden');
+                updateResistorDisplay('black', 'black', 'none', 'black', 'none'); // Reset resistor display
+                return;
+            }
+
+            predictionWarning.classList.add('hidden'); // Hide warning initially
+
+            let resistanceOhms = inputValue * unitMultiplier;
+
+            // Try to find a 4-band representation first
+            let band1Color = 'black';
+            let band2Color = 'black';
+            let band3Color = 'none'; // Default to 4-band
+            let multiplierColor = 'black';
+            let toleranceColor = 'none';
+
+            // Find tolerance color
+            toleranceColor = toleranceColors[desiredTolerance] || 'none';
+
+            // Iterate through possible multipliers to find the best fit
+            let bestMatch = null;
+            let minDifference = Infinity;
+
+            // Sort multipliers from largest to smallest to prioritize simpler representations
+            const sortedMultipliers = Object.keys(multiplierColors).map(Number).sort((a, b) => b - a);
+
+            for (const mult of sortedMultipliers) {
+                const significantValue = resistanceOhms / mult;
+
+                // Check for 2 significant digits (4-band)
+                if (significantValue >= 10 && significantValue <= 99) {
+                    const s1 = Math.floor(significantValue / 10);
+                    const s2 = Math.round(significantValue % 10); // Round to nearest digit
+
+                    // Check if digits are valid colors
+                    if (digitColors[s1] && digitColors[s2]) {
+                        const calculatedValue = (s1 * 10 + s2) * mult;
+                        const diff = Math.abs(calculatedValue - resistanceOhms);
+
+                        // Prioritize exact matches, then smallest difference
+                        if (diff < minDifference) {
+                            minDifference = diff;
+                            bestMatch = {
+                                band1: digitColors[s1],
+                                band2: digitColors[s2],
+                                band3: 'none',
+                                multiplier: multiplierColors[mult],
+                                type: '4-band',
+                                calculatedValue: calculatedValue
+                            };
+                            // If exact match, we can stop
+                            if (diff === 0) break;
+                        }
+                    }
+                }
+
+                // Check for 3 significant digits (5-band)
+                if (significantValue >= 100 && significantValue <= 999) {
+                    const s1 = Math.floor(significantValue / 100);
+                    const s2 = Math.floor((significantValue % 100) / 10);
+                    const s3 = Math.round(significantValue % 10); // Round to nearest digit
+
+                    // Check if digits are valid colors
+                    if (digitColors[s1] && digitColors[s2] && digitColors[s3]) {
+                        const calculatedValue = (s1 * 100 + s2 * 10 + s3) * mult;
+                        const diff = Math.abs(calculatedValue - resistanceOhms);
+
+                        if (diff < minDifference) {
+                            minDifference = diff;
+                            bestMatch = {
+                                band1: digitColors[s1],
+                                band2: digitColors[s2],
+                                band3: digitColors[s3],
+                                multiplier: multiplierColors[mult],
+                                type: '5-band',
+                                calculatedValue: calculatedValue
+                            };
+                            // If exact match, we can stop
+                            if (diff === 0) break;
+                        }
+                    }
+                }
+            }
+
+            if (bestMatch) {
+                band1Color = bestMatch.band1;
+                band2Color = bestMatch.band2;
+                band3Color = bestMatch.band3;
+                multiplierColor = bestMatch.multiplier;
+
+                predictedResultDisplay.textContent = `Band 1: ${band1Color.charAt(0).toUpperCase() + band1Color.slice(1)}, Band 2: ${band2Color.charAt(0).toUpperCase() + band2Color.slice(1)}`;
+                if (bestMatch.type === '5-band') {
+                    predictedResultDisplay.textContent += `, Band 3: ${band3Color.charAt(0).toUpperCase() + band3Color.slice(1)}`;
+                }
+                predictedResultDisplay.textContent += `, Multiplier: ${multiplierColor.charAt(0).toUpperCase() + multiplierColor.slice(1)}, Tolerance: ${toleranceColor.charAt(0).toUpperCase() + toleranceColor.slice(1)}`;
+                predictedResultDisplay.textContent += ` (Calculated: ${formatResistance(bestMatch.calculatedValue)} ± ${desiredTolerance}%)`;
+
+                updateResistorDisplay(band1Color, band2Color, band3Color, multiplierColor, toleranceColor);
+            } else {
+                predictedResultDisplay.textContent = "Cannot represent this value with standard color bands.";
+                predictionWarning.classList.remove('hidden');
+                updateResistorDisplay('black', 'black', 'none', 'black', 'none'); // Reset resistor display
+            }
+        }
+
+        /**
+         * Switches the calculator mode.
+         * @param {string} mode - 'colorToResistance' or 'resistanceToColor'.
+         */
+        function switchMode(mode) {
+            currentMode = mode;
+            if (mode === 'colorToResistance') {
+                modeColorToResistanceBtn.classList.add('bg-blue-600', 'text-white');
+                modeColorToResistanceBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                modeResistanceToColorBtn.classList.add('bg-gray-200', 'text-gray-700');
+                modeResistanceToColorBtn.classList.remove('bg-blue-600', 'text-white');
+                colorToResistanceSection.classList.remove('hidden');
+                resistanceToColorSection.classList.add('hidden');
+                calculateResistance(); // Recalculate and update display for this mode
+            } else {
+                modeResistanceToColorBtn.classList.add('bg-blue-600', 'text-white');
+                modeResistanceToColorBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                modeColorToResistanceBtn.classList.add('bg-gray-200', 'text-gray-700');
+                modeColorToResistanceBtn.classList.remove('bg-blue-600', 'text-white');
+                resistanceToColorSection.classList.remove('hidden');
+                colorToResistanceSection.classList.add('hidden');
+                predictColors(); // Predict and update display for this mode
+            }
+        }
+
+        // Initialize select options
+        window.onload = function() {
+            populateSelect(band1Select, colorCodes, 'digit');
+            populateSelect(band2Select, colorCodes, 'digit');
+            populateSelect(band3Select, colorCodes, 'digit', true); // Include 'none' for 4-band
+            populateSelect(multiplierSelect, colorCodes, 'multiplier');
+            populateSelect(toleranceSelect, colorCodes, 'tolerance');
+            populateSelect(predictedToleranceSelect, colorCodes, 'tolerance'); // For prediction mode
+
+            // Set initial values for prediction selects
+            resistanceUnitSelect.value = '1'; // Default to Ohms
+            predictedToleranceSelect.value = '5'; // Default to Gold (5%) tolerance
+
+            // Add event listeners for Color to Resistance Calculator
+            band1Select.addEventListener('change', calculateResistance);
+            band2Select.addEventListener('change', calculateResistance);
+            band3Select.addEventListener('change', calculateResistance);
+            multiplierSelect.addEventListener('change', calculateResistance);
+            toleranceSelect.addEventListener('change', calculateResistance);
+
+            // Add event listeners for Resistance to Color Predictor
+            resistanceValueInput.addEventListener('input', predictColors);
+            resistanceUnitSelect.addEventListener('change', predictColors);
+            predictedToleranceSelect.addEventListener('change', predictColors);
+
+            // Add event listeners for mode toggle buttons
+            modeColorToResistanceBtn.addEventListener('click', () => switchMode('colorToResistance'));
+            modeResistanceToColorBtn.addEventListener('click', () => switchMode('resistanceToColor'));
+
+            // Initial calculation and display update
+            calculateResistance();
+            switchMode('colorToResistance'); // Ensure the correct mode is active on load
+        };
+    </script>
+</body>
+</html>
