@@ -24,27 +24,36 @@
             border-radius: 4px;
             margin: 0 2px;
             box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+            /* Add subtle 3D effect to bands */
+            border: 1px solid rgba(0,0,0,0.1);
         }
         /* Specific styles for the body of the resistor */
         .resistor-body {
-            background-color: #f7d794; /* Light yellowish-brown for resistor body */
+            /* Enhanced background for cylindrical look */
+            background: linear-gradient(to right, #d4b472 0%, #f7d794 20%, #f7d794 80%, #d4b472 100%); /* More pronounced gradient for cylindrical effect */
             height: 60px;
             width: 180px; /* Width of the resistor body */
-            border-radius: 8px;
+            border-radius: 8px; /* Maintain rounded ends */
             position: relative;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            /* Enhanced shadow for depth and curvature */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2), /* Outer shadow for lift */
+                        inset 0 0 10px rgba(255,255,255,0.5), /* Inner highlight for rounded top */
+                        inset 0 0 10px rgba(0,0,0,0.2); /* Inner shadow for rounded bottom */
+            border: 1px solid #c7a468; /* Subtle border */
         }
         .resistor-lead {
             width: 30px; /* Length of the lead */
             height: 3px; /* Thickness of the lead */
-            background-color: #888; /* Grey color for leads */
+            /* Metallic gradient for leads */
+            background: linear-gradient(to right, #888888, #cccccc, #888888); /* More defined metallic gradient */
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
         .resistor-lead.left {
             left: -30px;
@@ -168,6 +177,13 @@
                 <p id="predictedResult" class="text-xl font-bold text-green-900 mt-2">Enter value to predict colors</p>
                 <p id="predictionWarning" class="text-sm text-red-600 mt-2 hidden">Invalid resistance value or cannot be represented with standard bands.</p>
             </div>
+        </div>
+
+        <!-- Credits Section -->
+        <div class="text-center text-gray-500 text-sm mt-8 pt-4 border-t border-gray-200">
+            <p>Created by RSMK</p>
+            <p>&copy; 2025 RSMK. All rights reserved. </p>
+            <p>Contact: <a href="mailto:srinivasmanikantarajapantula@gmail.com" class="text-blue-600 hover:underline">srinivasmanikantarajapantula@gmail.com</a></p>
         </div>
 
     </div>
