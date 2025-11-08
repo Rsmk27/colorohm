@@ -8,7 +8,7 @@ ColorOhm is a simple yet powerful tool to decode resistor color bands into their
 ## Demo
 site live now:
 
-https://rsmk27.github.io/colorohm/
+https://colorohm.rsmk.me/
 ## Screenshots
 
 ![App Screenshot](https://drive.google.com/file/d/1UxJutlKuRO7zkyqb94ZGGOZMYo-ocXGN/view?usp=sharing)
