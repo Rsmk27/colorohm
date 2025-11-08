@@ -9,9 +9,6 @@ ColorOhm is a simple yet powerful tool to decode resistor color bands into their
 site live now:
 
 https://colorohm.rsmk.me/
-## Screenshots
-
-![App Screenshot](https://drive.google.com/file/d/1UxJutlKuRO7zkyqb94ZGGOZMYo-ocXGN/view?usp=sharing)
 
 
 ## 🚀 -[About Me](https://www.github.com/Rsmk27)
