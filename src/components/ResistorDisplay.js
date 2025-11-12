@@ -22,24 +22,37 @@ export class ResistorDisplay {
         const isSMD = this.mode === 'smd-calculator';
         
         this.container.innerHTML = `
-            <div class="bg-white rounded-2xl shadow-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-800 mb-6">
+            <div class="glass-card p-6 scale-in">
+                <h3 class="text-lg font-bold text-gray-800 mb-6 font-display">
                     ${isSMD ? 'SMD Resistor' : `${this.bandCount}-Band Resistor`}
                 </h3>
                 
-                <div class="flex justify-center items-center mb-6">
+                <div class="flex justify-center items-center mb-6 p-4 bg-gradient-to-br from-white/50 to-gray-50/50 rounded-xl">
                     ${isSMD ? this.renderSMDResistor() : this.renderThroughHoleResistor()}
                 </div>
                 
-                <div id="resistance-result" class="text-center bg-gradient-to-r from-primary-50 to-accent-50 p-4 rounded-xl">
-                    <p class="text-sm font-medium text-gray-600 mb-1">Calculated Value</p>
-                    <p class="text-2xl font-bold text-gray-800" id="result-value">0 Ω ± 5%</p>
-                    <p class="text-sm text-gray-500 mt-1" id="result-details">Select values to calculate</p>
+                <div id="resistance-result" class="result-display text-center mb-4">
+                    <p class="text-sm font-medium text-gray-600 mb-2">Calculated Value</p>
+                    <p class="text-3xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent" id="result-value">0 Ω ± 5%</p>
+                    <p class="text-sm text-gray-500 mt-2" id="result-details">Select values to calculate</p>
+                </div>
+
+                <!-- Copy Button -->
+                <div class="flex justify-center mb-4">
+                    <button id="copy-value-btn" class="copy-btn">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        <span>Copy Value</span>
+                    </button>
                 </div>
                 
                 ${this.renderAdditionalInfo()}
             </div>
         `;
+
+        // Bind copy button event
+        this.bindCopyButton();
     }
 
     renderThroughHoleResistor() {
@@ -88,8 +101,8 @@ export class ResistorDisplay {
 
     renderSMDResistor() {
         return `
-            <div class="smd-resistor bg-gray-800 rounded-lg p-4 text-center min-w-[120px] min-h-[60px] flex items-center justify-center shadow-lg">
-                <span id="smd-code" class="text-white font-mono text-lg font-bold">000</span>
+            <div class="smd-resistor bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 text-center min-w-[140px] min-h-[70px] flex items-center justify-center shadow-xl border-2 border-gray-700">
+                <span id="smd-code" class="text-white font-mono text-2xl font-bold tracking-wider">000</span>
             </div>
         `;
     }
@@ -204,7 +217,7 @@ export class ResistorDisplay {
     renderAdditionalInfo() {
         if (this.mode === 'smd-calculator') {
             return `
-                <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+                <div class="info-card bg-blue-50 border border-blue-200">
                     <p class="text-sm text-blue-800">
                         <strong>SMD Codes:</strong> 3-digit codes where first two digits are significant figures 
                         and the third is the multiplier (number of zeros).
@@ -214,23 +227,69 @@ export class ResistorDisplay {
         }
 
         return `
-            <div class="mt-4 space-y-2">
-                <div class="flex justify-between text-sm">
-                    <span class="text-gray-600">Precision:</span>
-                    <span class="font-medium">${this.bandCount >= 5 ? 'High (3 digits)' : 'Standard (2 digits)'}</span>
+            <div class="space-y-3 p-4 bg-gradient-to-br from-gray-50/50 to-blue-50/50 rounded-xl border border-gray-200/50">
+                <div class="flex justify-between text-sm items-center">
+                    <span class="text-gray-600 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"></path>
+                        </svg>
+                        Precision:
+                    </span>
+                    <span class="font-semibold text-gray-800">${this.bandCount >= 5 ? 'High (3 digits)' : 'Standard (2 digits)'}</span>
                 </div>
-                <div class="flex justify-between text-sm">
-                    <span class="text-gray-600">Tolerance:</span>
-                    <span class="font-medium">±5% (typical)</span>
+                <div class="flex justify-between text-sm items-center">
+                    <span class="text-gray-600 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                        </svg>
+                        Tolerance:
+                    </span>
+                    <span class="font-semibold text-gray-800">±5% (typical)</span>
                 </div>
                 ${this.bandCount === 6 ? `
-                <div class="flex justify-between text-sm">
-                    <span class="text-gray-600">Temp. Coefficient:</span>
-                    <span class="font-medium">Included</span>
+                <div class="flex justify-between text-sm items-center">
+                    <span class="text-gray-600 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+                        </svg>
+                        Temp. Coefficient:
+                    </span>
+                    <span class="font-semibold text-gray-800">Included</span>
                 </div>
                 ` : ''}
             </div>
         `;
+    }
+
+    bindCopyButton() {
+        const copyBtn = document.getElementById('copy-value-btn');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => this.copyValue());
+        }
+    }
+
+    copyValue() {
+        const resultValue = this.container.querySelector('#result-value');
+        if (resultValue) {
+            const text = resultValue.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const copyBtn = document.getElementById('copy-value-btn');
+                const originalHTML = copyBtn.innerHTML;
+                
+                copyBtn.classList.add('copied');
+                copyBtn.innerHTML = `
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Copied!</span>
+                `;
+                
+                setTimeout(() => {
+                    copyBtn.classList.remove('copied');
+                    copyBtn.innerHTML = originalHTML;
+                }, 2000);
+            });
+        }
     }
 
     handleResize() {

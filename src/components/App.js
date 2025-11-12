@@ -184,28 +184,85 @@ export class App {
 
     renderInfoSection() {
         return `
-            <div class="bg-white rounded-2xl shadow-lg p-8">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">About Resistor Color Codes</h2>
+            <div class="glass-card p-8 fade-in">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-700 rounded-lg flex items-center justify-center">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold font-display bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
+                        About Resistor Color Codes
+                    </h2>
+                </div>
                 
                 <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-700 mb-4">How It Works</h3>
-                        <p class="text-gray-600 mb-4">
-                            Resistor color codes use colored bands to indicate the resistance value and tolerance. 
-                            Each color represents a specific digit or multiplier, allowing you to determine the 
-                            resistance without measuring equipment.
-                        </p>
-                        <ul class="text-gray-600 space-y-2">
-                            <li>• <strong>3-Band:</strong> Two significant digits + multiplier</li>
-                            <li>• <strong>4-Band:</strong> Two significant digits + multiplier + tolerance</li>
-                            <li>• <strong>5-Band:</strong> Three significant digits + multiplier + tolerance</li>
-                            <li>• <strong>6-Band:</strong> Three significant digits + multiplier + tolerance + temperature coefficient</li>
-                        </ul>
+                    <div class="space-y-6">
+                        <div class="accent-border pl-4">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4 font-display">How It Works</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Resistor color codes use colored bands to indicate the resistance value and tolerance. 
+                                Each color represents a specific digit or multiplier, allowing you to determine the 
+                                resistance without measuring equipment.
+                            </p>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="info-card bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span class="text-white font-bold text-sm">3</span>
+                                    </div>
+                                    <div>
+                                        <strong class="text-gray-800">3-Band:</strong>
+                                        <p class="text-gray-600 text-sm mt-1">Two significant digits + multiplier</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="info-card bg-gradient-to-br from-green-50 to-green-100 border border-green-200">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span class="text-white font-bold text-sm">4</span>
+                                    </div>
+                                    <div>
+                                        <strong class="text-gray-800">4-Band:</strong>
+                                        <p class="text-gray-600 text-sm mt-1">Two significant digits + multiplier + tolerance</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="info-card bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span class="text-white font-bold text-sm">5</span>
+                                    </div>
+                                    <div>
+                                        <strong class="text-gray-800">5-Band:</strong>
+                                        <p class="text-gray-600 text-sm mt-1">Three significant digits + multiplier + tolerance</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="info-card bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span class="text-white font-bold text-sm">6</span>
+                                    </div>
+                                    <div>
+                                        <strong class="text-gray-800">6-Band:</strong>
+                                        <p class="text-gray-600 text-sm mt-1">Three significant digits + multiplier + tolerance + temp coefficient</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Color Reference</h3>
-                        <div class="grid grid-cols-2 gap-2 text-sm">
+                        <div class="accent-border pl-4 mb-4">
+                            <h3 class="text-xl font-semibold text-gray-800 font-display">Color Reference</h3>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 text-sm">
                             ${this.renderColorReference()}
                         </div>
                     </div>
@@ -229,9 +286,10 @@ export class App {
         ];
 
         return colors.map(color => `
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <div class="color-preview" style="background-color: ${color.color}; ${color.name === 'White' ? 'border-color: #ccc;' : ''}"></div>
-                <span class="text-gray-700">${color.name} (${color.value})</span>
+                <span class="text-gray-700 font-medium">${color.name}</span>
+                <span class="text-gray-500 text-xs ml-auto">(${color.value})</span>
             </div>
         `).join('');
     }
