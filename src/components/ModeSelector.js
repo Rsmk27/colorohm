@@ -13,60 +13,63 @@ export class ModeSelector {
 
     render() {
         this.container.innerHTML = `
-            <div class="bg-white rounded-2xl shadow-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-800 mb-6">Calculator Mode</h2>
+            <div class="glass-card p-6 slide-up">
+                <h2 class="text-xl font-bold text-gray-800 mb-6 font-display">Calculator Mode</h2>
                 
                 <div class="space-y-4">
                     <!-- Main Mode Selection -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <button 
                             data-mode="color-to-resistance" 
-                            class="mode-btn active flex flex-col items-center p-4 rounded-xl border-2 transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                            class="mode-btn active group relative flex flex-col items-center p-5 rounded-xl border-2 transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 overflow-hidden"
                         >
-                            <svg class="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="absolute inset-0 bg-gradient-to-br from-primary-500/0 to-primary-500/0 group-hover:from-primary-500/10 group-hover:to-primary-600/10 transition-all duration-300"></div>
+                            <svg class="w-10 h-10 mb-3 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v6a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
                             </svg>
-                            <span class="font-medium">Color to Resistance</span>
-                            <span class="text-sm text-gray-500 mt-1">Read resistor bands</span>
+                            <span class="font-semibold text-base relative z-10">Color to Resistance</span>
+                            <span class="text-sm text-gray-500 mt-1 relative z-10">Read resistor bands</span>
                         </button>
                         
                         <button 
                             data-mode="resistance-to-color" 
-                            class="mode-btn flex flex-col items-center p-4 rounded-xl border-2 transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                            class="mode-btn group relative flex flex-col items-center p-5 rounded-xl border-2 transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 overflow-hidden"
                         >
-                            <svg class="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="absolute inset-0 bg-gradient-to-br from-primary-500/0 to-primary-500/0 group-hover:from-primary-500/10 group-hover:to-primary-600/10 transition-all duration-300"></div>
+                            <svg class="w-10 h-10 mb-3 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
                             </svg>
-                            <span class="font-medium">Resistance to Color</span>
-                            <span class="text-sm text-gray-500 mt-1">Find color bands</span>
+                            <span class="font-semibold text-base relative z-10">Resistance to Color</span>
+                            <span class="text-sm text-gray-500 mt-1 relative z-10">Find color bands</span>
                         </button>
                         
                         <button 
                             data-mode="smd-calculator" 
-                            class="mode-btn flex flex-col items-center p-4 rounded-xl border-2 transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                            class="mode-btn group relative flex flex-col items-center p-5 rounded-xl border-2 transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 overflow-hidden"
                         >
-                            <svg class="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="absolute inset-0 bg-gradient-to-br from-primary-500/0 to-primary-500/0 group-hover:from-primary-500/10 group-hover:to-primary-600/10 transition-all duration-300"></div>
+                            <svg class="w-10 h-10 mb-3 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
                             </svg>
-                            <span class="font-medium">SMD Calculator</span>
-                            <span class="text-sm text-gray-500 mt-1">Surface mount codes</span>
+                            <span class="font-semibold text-base relative z-10">SMD Calculator</span>
+                            <span class="text-sm text-gray-500 mt-1 relative z-10">Surface mount codes</span>
                         </button>
                     </div>
                     
                     <!-- Band Count Selection (for through-hole resistors) -->
-                    <div id="band-count-selector" class="border-t pt-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">Resistor Type:</label>
-                        <div class="flex flex-wrap gap-2">
-                            <button data-bands="3" class="band-btn px-4 py-2 rounded-lg border transition-all duration-200 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500">
+                    <div id="band-count-selector" class="border-t border-gray-200 pt-4">
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">Resistor Type:</label>
+                        <div class="flex flex-wrap gap-3">
+                            <button data-bands="3" class="band-btn btn-primary px-5 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300">
                                 3-Band
                             </button>
-                            <button data-bands="4" class="band-btn active px-4 py-2 rounded-lg border transition-all duration-200 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <button data-bands="4" class="band-btn active btn-primary px-5 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300">
                                 4-Band
                             </button>
-                            <button data-bands="5" class="band-btn px-4 py-2 rounded-lg border transition-all duration-200 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <button data-bands="5" class="band-btn btn-primary px-5 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300">
                                 5-Band
                             </button>
-                            <button data-bands="6" class="band-btn px-4 py-2 rounded-lg border transition-all duration-200 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <button data-bands="6" class="band-btn btn-primary px-5 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300">
                                 6-Band
                             </button>
                         </div>
@@ -124,10 +127,10 @@ export class ModeSelector {
             btn.classList.toggle('active', isActive);
             
             if (isActive) {
-                btn.classList.add('bg-primary-50', 'border-primary-500', 'text-primary-700');
+                btn.classList.add('bg-gradient-to-br', 'from-primary-50', 'to-blue-50', 'border-primary-500', 'text-primary-700', 'shadow-lg');
                 btn.classList.remove('border-gray-200', 'text-gray-600');
             } else {
-                btn.classList.remove('bg-primary-50', 'border-primary-500', 'text-primary-700');
+                btn.classList.remove('bg-gradient-to-br', 'from-primary-50', 'to-blue-50', 'border-primary-500', 'text-primary-700', 'shadow-lg');
                 btn.classList.add('border-gray-200', 'text-gray-600');
             }
         });
@@ -138,11 +141,11 @@ export class ModeSelector {
             btn.classList.toggle('active', isActive);
             
             if (isActive) {
-                btn.classList.add('bg-primary-500', 'text-white', 'border-primary-500');
-                btn.classList.remove('bg-white', 'text-gray-700', 'border-gray-300');
+                btn.classList.add('bg-gradient-to-r', 'from-primary-500', 'to-primary-600', 'text-white', 'shadow-md');
+                btn.classList.remove('bg-white', 'text-gray-700');
             } else {
-                btn.classList.remove('bg-primary-500', 'text-white', 'border-primary-500');
-                btn.classList.add('bg-white', 'text-gray-700', 'border-gray-300');
+                btn.classList.remove('bg-gradient-to-r', 'from-primary-500', 'to-primary-600', 'text-white', 'shadow-md');
+                btn.classList.add('bg-white', 'text-gray-700');
             }
         });
     }
