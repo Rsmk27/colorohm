@@ -47,9 +47,9 @@ export class Footer {
                             </p>
                             <div class="space-y-2">
                                 <p class="text-sm text-gray-500">
-                                    Contact: <a href="mailto:srinivasmanikantarajapantula@gmail.com" 
+                                    Checkout <a href="https://rsmk.me" 
                                               class="text-primary-600 hover:text-primary-700 hover:underline">
-                                        srinivasmanikantarajapantula@gmail.com
+                                        My Portfolio
                                     </a>
                                 </p>
                                 <p class="text-sm text-gray-500">
