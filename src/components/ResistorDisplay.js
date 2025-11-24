@@ -20,21 +20,21 @@ export class ResistorDisplay {
 
     render() {
         const isSMD = this.mode === 'smd-calculator';
-        
+
         this.container.innerHTML = `
-            <div class="glass-card p-6 scale-in">
-                <h3 class="text-lg font-bold text-gray-800 mb-6 font-display">
+            <div class="glass-card p-6 scale-in border border-slate-700/50 bg-slate-900/80 backdrop-blur-md">
+                <h3 class="text-lg font-bold text-slate-200 mb-6 font-display">
                     ${isSMD ? 'SMD Resistor' : `${this.bandCount}-Band Resistor`}
                 </h3>
                 
-                <div class="flex justify-center items-center mb-6 p-4 bg-gradient-to-br from-white/50 to-gray-50/50 rounded-xl">
+                <div class="flex justify-center items-center mb-6 p-4 bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-xl border border-slate-700/50 shadow-inner">
                     ${isSMD ? this.renderSMDResistor() : this.renderThroughHoleResistor()}
                 </div>
                 
                 <div id="resistance-result" class="result-display text-center mb-4">
-                    <p class="text-sm font-medium text-gray-600 mb-2">Calculated Value</p>
-                    <p class="text-3xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent" id="result-value">0 Ω ± 5%</p>
-                    <p class="text-sm text-gray-500 mt-2" id="result-details">Select values to calculate</p>
+                    <p class="text-sm font-medium text-slate-400 mb-2">Calculated Value</p>
+                    <p class="text-3xl font-bold bg-gradient-to-r from-primary-400 to-primary-200 bg-clip-text text-transparent" id="result-value">0 Ω ± 5%</p>
+                    <p class="text-sm text-slate-500 mt-2" id="result-details">Select values to calculate</p>
                 </div>
 
                 <!-- Copy Button -->
@@ -64,18 +64,18 @@ export class ResistorDisplay {
 
         return `
             <div class="resistor-container">
-                <svg width="${bodyWidth + leadLength * 2}" height="${bodyHeight + 20}" class="resistor-svg">
+                <svg width="${bodyWidth + leadLength * 2}" height="${bodyHeight + 20}" class="resistor-svg filter drop-shadow-lg">
                     <!-- Left lead -->
-                    <rect x="0" y="${bodyHeight/2 - 1.5}" width="${leadLength}" height="3" 
+                    <rect x="0" y="${bodyHeight / 2 - 1.5}" width="${leadLength}" height="3" 
                           fill="url(#leadGradient)" rx="1.5"/>
                     
                     <!-- Right lead -->
-                    <rect x="${bodyWidth + leadLength}" y="${bodyHeight/2 - 1.5}" width="${leadLength}" height="3" 
+                    <rect x="${bodyWidth + leadLength}" y="${bodyHeight / 2 - 1.5}" width="${leadLength}" height="3" 
                           fill="url(#leadGradient)" rx="1.5"/>
                     
                     <!-- Resistor body -->
                     <rect x="${leadLength}" y="10" width="${bodyWidth}" height="${bodyHeight}" 
-                          fill="url(#bodyGradient)" rx="8" stroke="#c7a468" stroke-width="1"/>
+                          fill="url(#bodyGradient)" rx="8" stroke="#854d0e" stroke-width="1"/>
                     
                     <!-- Resistor bands -->
                     ${this.renderBands(leadLength, bodyWidth, bodyHeight, bandWidth, bandSpacing)}
@@ -83,9 +83,9 @@ export class ResistorDisplay {
                     <!-- Gradients -->
                     <defs>
                         <linearGradient id="leadGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:#cccccc"/>
-                            <stop offset="50%" style="stop-color:#888888"/>
-                            <stop offset="100%" style="stop-color:#cccccc"/>
+                            <stop offset="0%" style="stop-color:#94a3b8"/>
+                            <stop offset="50%" style="stop-color:#64748b"/>
+                            <stop offset="100%" style="stop-color:#94a3b8"/>
                         </linearGradient>
                         <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
                             <stop offset="0%" style="stop-color:#f7d794"/>
@@ -101,8 +101,8 @@ export class ResistorDisplay {
 
     renderSMDResistor() {
         return `
-            <div class="smd-resistor bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 text-center min-w-[140px] min-h-[70px] flex items-center justify-center shadow-xl border-2 border-gray-700">
-                <span id="smd-code" class="text-white font-mono text-2xl font-bold tracking-wider">000</span>
+            <div class="smd-resistor bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 text-center min-w-[140px] min-h-[70px] flex items-center justify-center shadow-xl border border-slate-700">
+                <span id="smd-code" class="text-slate-200 font-mono text-2xl font-bold tracking-wider">000</span>
             </div>
         `;
     }
@@ -110,13 +110,13 @@ export class ResistorDisplay {
     renderBands(leadLength, bodyWidth, bodyHeight, bandWidth, bandSpacing) {
         let bandsHTML = '';
         const startX = leadLength + 20;
-        
+
         for (let i = 0; i < this.bandCount; i++) {
-            const isToleranceBand = (this.bandCount === 4 && i === 3) || 
-                                  (this.bandCount === 5 && i === 4) || 
-                                  (this.bandCount === 6 && i === 5);
+            const isToleranceBand = (this.bandCount === 4 && i === 3) ||
+                (this.bandCount === 5 && i === 4) ||
+                (this.bandCount === 6 && i === 5);
             const isTempCoeffBand = this.bandCount === 6 && i === 5;
-            
+
             let xPosition;
             if (isToleranceBand) {
                 // Position tolerance band towards the right
@@ -127,17 +127,17 @@ export class ResistorDisplay {
             } else {
                 xPosition = startX + (i * bandSpacing);
             }
-            
+
             const color = this.currentColors[i] || 'black';
             const colorValue = this.calculator.getColorValue(color);
-            
+
             bandsHTML += `
                 <rect x="${xPosition}" y="15" width="${bandWidth}" height="${bodyHeight - 10}" 
                       fill="${colorValue}" stroke="rgba(0,0,0,0.3)" stroke-width="1" rx="2"
                       class="resistor-band" data-band="${i}"/>
             `;
         }
-        
+
         return bandsHTML;
     }
 
@@ -156,7 +156,7 @@ export class ResistorDisplay {
 
         // Update the display
         this.updateResult(result);
-        
+
         // Re-render if needed
         if (this.mode !== 'smd-calculator') {
             this.updateBandColors();
@@ -189,11 +189,11 @@ export class ResistorDisplay {
     updateResult(result) {
         const resultValue = this.container.querySelector('#result-value');
         const resultDetails = this.container.querySelector('#result-details');
-        
+
         if (resultValue) {
             resultValue.textContent = result.formattedValue || '0 Ω';
         }
-        
+
         if (resultDetails) {
             resultDetails.textContent = result.details || 'Calculation complete';
         }
@@ -208,7 +208,7 @@ export class ResistorDisplay {
         // Add pulse animation
         const resultElement = this.container.querySelector('#resistance-result');
         resultElement.classList.add('pulse-subtle');
-        
+
         this.animationTimeout = setTimeout(() => {
             resultElement.classList.remove('pulse-subtle');
         }, 1000);
@@ -217,9 +217,9 @@ export class ResistorDisplay {
     renderAdditionalInfo() {
         if (this.mode === 'smd-calculator') {
             return `
-                <div class="info-card bg-blue-50 border border-blue-200">
-                    <p class="text-sm text-blue-800">
-                        <strong>SMD Codes:</strong> 3-digit codes where first two digits are significant figures 
+                <div class="info-card bg-slate-800/50 border border-slate-700/50">
+                    <p class="text-sm text-slate-400">
+                        <strong class="text-slate-200">SMD Codes:</strong> 3-digit codes where first two digits are significant figures 
                         and the third is the multiplier (number of zeros).
                     </p>
                 </div>
@@ -227,34 +227,34 @@ export class ResistorDisplay {
         }
 
         return `
-            <div class="space-y-3 p-4 bg-gradient-to-br from-gray-50/50 to-blue-50/50 rounded-xl border border-gray-200/50">
+            <div class="space-y-3 p-4 bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-xl border border-slate-700/50">
                 <div class="flex justify-between text-sm items-center">
-                    <span class="text-gray-600 flex items-center gap-2">
+                    <span class="text-slate-400 flex items-center gap-2">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"></path>
                         </svg>
                         Precision:
                     </span>
-                    <span class="font-semibold text-gray-800">${this.bandCount >= 5 ? 'High (3 digits)' : 'Standard (2 digits)'}</span>
+                    <span class="font-semibold text-slate-200">${this.bandCount >= 5 ? 'High (3 digits)' : 'Standard (2 digits)'}</span>
                 </div>
                 <div class="flex justify-between text-sm items-center">
-                    <span class="text-gray-600 flex items-center gap-2">
+                    <span class="text-slate-400 flex items-center gap-2">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                         </svg>
                         Tolerance:
                     </span>
-                    <span class="font-semibold text-gray-800">±5% (typical)</span>
+                    <span class="font-semibold text-slate-200">±5% (typical)</span>
                 </div>
                 ${this.bandCount === 6 ? `
                 <div class="flex justify-between text-sm items-center">
-                    <span class="text-gray-600 flex items-center gap-2">
+                    <span class="text-slate-400 flex items-center gap-2">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
                         </svg>
                         Temp. Coefficient:
                     </span>
-                    <span class="font-semibold text-gray-800">Included</span>
+                    <span class="font-semibold text-slate-200">Included</span>
                 </div>
                 ` : ''}
             </div>
@@ -275,7 +275,7 @@ export class ResistorDisplay {
             navigator.clipboard.writeText(text).then(() => {
                 const copyBtn = document.getElementById('copy-value-btn');
                 const originalHTML = copyBtn.innerHTML;
-                
+
                 copyBtn.classList.add('copied');
                 copyBtn.innerHTML = `
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -283,7 +283,7 @@ export class ResistorDisplay {
                     </svg>
                     <span>Copied!</span>
                 `;
-                
+
                 setTimeout(() => {
                     copyBtn.classList.remove('copied');
                     copyBtn.innerHTML = originalHTML;
