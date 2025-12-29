@@ -17,10 +17,8 @@ export class Header {
                             <div class="flex items-center space-x-3">
                                 <!-- Logo Placeholder - Circular with Resistor Icon -->
                                 <div class="logo-container relative">
-                                    <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center shadow-lg shadow-primary-500/30 glow-effect">
-                                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                        </svg>
+                                    <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center shadow-lg shadow-primary-500/30 glow-effect overflow-hidden">
+                                        <img src="/favicon.png" alt="ColorOhm Logo" class="w-full h-full object-cover" />
                                     </div>
                                     <!-- Pulse Ring Animation -->
                                     <div class="absolute inset-0 rounded-full bg-primary-500/20 animate-ping"></div>

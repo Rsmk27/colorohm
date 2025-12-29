@@ -14,10 +14,8 @@ export class Footer {
                     <div class="grid md:grid-cols-3 gap-8">
                         <div class="space-y-4">
                             <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center glow-effect shadow-lg shadow-primary-500/20">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                    </svg>
+                                <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center glow-effect shadow-lg shadow-primary-500/20 overflow-hidden">
+                                    <img src="/favicon.png" alt="ColorOhm Logo" class="w-full h-full object-cover" />
                                 </div>
                                 <h3 class="text-xl font-bold font-display bg-gradient-to-r from-primary-400 to-primary-200 bg-clip-text text-transparent">ColorOhm</h3>
                             </div>
