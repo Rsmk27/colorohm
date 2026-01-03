@@ -14,142 +14,127 @@ export class SMDCalculator {
 
     render() {
         this.container.innerHTML = `
-            <div class="glass-card p-6 slide-up border border-slate-700/50 bg-slate-900/80 backdrop-blur-md">
-                <h3 class="text-xl font-bold text-slate-200 mb-6 font-display flex items-center gap-3">
-                    <span class="w-8 h-8 rounded-lg bg-primary-500/20 flex items-center justify-center text-primary-400">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="card-glass slide-up">
+                <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--color-text-main); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                    <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(0, 212, 255, 0.1); border-radius: 8px; color: var(--color-primary);">
+                        <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
                         </svg>
                     </span>
                     SMD Resistor Calculator
                 </h3>
                 
-                <div class="space-y-6">
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                     <!-- Mode Selection -->
                     <div>
-                        <label class="block text-sm font-semibold text-slate-300 mb-3">Calculation Mode</label>
-                        <div class="grid grid-cols-2 gap-4">
-                            <button id="code-to-resistance" class="mode-btn active group relative p-4 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 overflow-hidden">
-                                <div class="absolute inset-0 bg-gradient-to-br from-primary-500/0 to-primary-500/0 group-hover:from-primary-500/10 group-hover:to-primary-600/10 transition-all duration-300"></div>
-                                <div class="relative z-10 text-center">
-                                    <div class="text-lg font-semibold mb-1">Code → Resistance</div>
-                                    <div class="text-sm text-slate-400">Decode SMD markings</div>
-                                </div>
+                        <label class="control-label" style="margin-bottom: 0.75rem;">Calculation Mode</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <button id="code-to-resistance" class="mode-btn active" style="padding: 1rem; border-radius: 8px; border: 1px solid var(--color-border); background: var(--color-bg-card); cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                                <div style="font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; color: var(--color-text-main);">Code → Resistance</div>
+                                <div style="font-size: 0.8rem; color: var(--color-text-secondary);">Decode SMD markings</div>
                             </button>
-                            <button id="resistance-to-code" class="mode-btn group relative p-4 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 overflow-hidden">
-                                <div class="absolute inset-0 bg-gradient-to-br from-primary-500/0 to-primary-500/0 group-hover:from-primary-500/10 group-hover:to-primary-600/10 transition-all duration-300"></div>
-                                <div class="relative z-10 text-center">
-                                    <div class="text-lg font-semibold mb-1">Resistance → Code</div>
-                                    <div class="text-sm text-slate-400">Find SMD marking</div>
-                                </div>
+                            <button id="resistance-to-code" class="mode-btn" style="padding: 1rem; border-radius: 8px; border: 1px solid var(--color-border); background: var(--color-bg-card); cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                                <div style="font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; color: var(--color-text-main);">Resistance → Code</div>
+                                <div style="font-size: 0.8rem; color: var(--color-text-secondary);">Find SMD marking</div>
                             </button>
                         </div>
                     </div>
 
                     <!-- Code Type Selection -->
                     <div>
-                        <label class="block text-sm font-semibold text-slate-300 mb-3">SMD Code Type</label>
-                        <div class="relative">
-                            <select id="code-type-select" class="w-full bg-slate-800 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 appearance-none cursor-pointer">
+                        <label class="control-label">SMD Code Type</label>
+                        <div style="position: relative;">
+                            <select id="code-type-select" class="select-input">
                                 <option value="3-digit">3-Digit Code (e.g., 472)</option>
                                 <option value="4-digit">4-Digit Code (e.g., 4702)</option>
                                 <option value="eia-96">EIA-96 Code (e.g., 01A)</option>
                             </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </div>
                         </div>
                     </div>
 
                     <!-- Code to Resistance Section -->
-                    <div id="code-to-resistance-section" class="space-y-4">
+                    <div id="code-to-resistance-section" style="display: flex; flex-direction: column; gap: 1rem;">
                         <div>
-                            <label class="block text-sm font-semibold text-slate-300 mb-2">
-                                SMD Code <span class="text-red-400">*</span>
+                            <label class="control-label">
+                                SMD Code <span style="color: #ef4444;">*</span>
                             </label>
                             <input 
                                 type="text" 
                                 id="smd-code-input" 
-                                class="w-full bg-slate-800 border border-slate-700 text-slate-200 text-lg font-mono text-center rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-3 placeholder-slate-500 uppercase" 
+                                class="select-input" 
+                                style="font-family: var(--font-mono); text-align: center; font-size: 1.25rem; letter-spacing: 0.1em; text-transform: uppercase;"
                                 placeholder="e.g., 472, 4702, 01A"
                                 maxlength="4"
                             >
-                            <p class="text-xs text-slate-500 mt-1" id="code-help-text">Enter the code printed on the SMD resistor</p>
+                            <p id="code-help-text" style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 4px;">Enter the code printed on the SMD resistor</p>
                         </div>
                     </div>
 
                     <!-- Resistance to Code Section -->
-                    <div id="resistance-to-code-section" class="hidden space-y-4">
-                        <div class="grid md:grid-cols-2 gap-4">
+                    <div id="resistance-to-code-section" class="hidden" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                             <div>
-                                <label class="block text-sm font-semibold text-slate-300 mb-2">
-                                    Resistance Value <span class="text-red-400">*</span>
+                                <label class="control-label">
+                                    Resistance Value <span style="color: #ef4444;">*</span>
                                 </label>
                                 <input 
                                     type="number" 
                                     id="smd-resistance-input" 
-                                    class="w-full bg-slate-800 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 placeholder-slate-500" 
-                                    placeholder="e.g., 4.7, 100, 10000"
+                                    class="select-input" 
+                                    placeholder="e.g., 4.7"
                                     step="any"
                                     min="0"
                                 >
                             </div>
                             
                             <div>
-                                <label class="block text-sm font-semibold text-slate-300 mb-2">Unit</label>
-                                <div class="relative">
-                                    <select id="smd-unit-select" class="w-full bg-slate-800 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 appearance-none cursor-pointer">
+                                <label class="control-label">Unit</label>
+                                <div style="position: relative;">
+                                    <select id="smd-unit-select" class="select-input">
                                         <option value="1">Ohms (Ω)</option>
                                         <option value="1000">Kiloohms (kΩ)</option>
                                         <option value="1000000">Megaohms (MΩ)</option>
                                     </select>
-                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                        </svg>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Calculate Button -->
-                    <div class="pt-4 border-t border-slate-700/50">
-                        <button id="smd-calculate-btn" class="btn-primary w-full py-3 px-6 text-base font-semibold shadow-lg shadow-primary-500/20 hover:shadow-primary-500/40 transition-all duration-300">
+                    <div style="padding-top: 1rem; border-top: 1px solid var(--color-border);">
+                        <button id="smd-calculate-btn" class="btn-primary">
                             Calculate
                         </button>
                     </div>
 
                     <!-- Results Section -->
-                    <div id="smd-results" class="hidden bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 backdrop-blur-sm">
-                        <div id="smd-result-content" class="space-y-2"></div>
+                    <div id="smd-results" class="hidden slide-up" style="background: rgba(0,0,0,0.2); border: 1px solid var(--color-border); border-radius: 8px; padding: 1rem;">
+                        <div id="smd-result-content"></div>
                     </div>
 
                     <!-- SMD Code Reference -->
-                    <div class="bg-slate-800/30 border border-slate-700/30 rounded-xl p-4">
-                        <h4 class="font-semibold text-slate-300 mb-3 flex items-center gap-2">
-                            <svg class="w-4 h-4 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 8px; padding: 1rem;">
+                        <h4 style="font-weight: 600; color: var(--color-text-main); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <svg style="width: 16px; height: 16px; color: var(--color-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             SMD Code Reference
                         </h4>
-                        <div class="grid md:grid-cols-3 gap-4 text-sm">
-                            <div class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/30">
-                                <h5 class="font-medium text-primary-400 mb-2">3-Digit Codes</h5>
-                                <p class="text-slate-400 text-xs">First two digits are significant figures, third digit is multiplier (number of zeros)</p>
-                                <p class="text-slate-500 text-xs mt-2 font-mono">Ex: 472 = 4.7kΩ</p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; font-size: 0.85rem;">
+                            <div style="padding: 0.75rem; background: rgba(0,0,0,0.2); border-radius: 6px; border: 1px solid var(--color-border);">
+                                <h5 style="color: var(--color-primary); font-weight: 500; margin-bottom: 0.5rem;">3-Digit Codes</h5>
+                                <p style="color: var(--color-text-secondary); font-size: 0.75rem;">First two digits are significant figures, third digit is multiplier.</p>
+                                <p style="color: var(--color-text-muted); font-size: 0.75rem; margin-top: 0.5rem; font-family: var(--font-mono);">Ex: 472 = 4.7kΩ</p>
                             </div>
-                            <div class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/30">
-                                <h5 class="font-medium text-primary-400 mb-2">4-Digit Codes</h5>
-                                <p class="text-slate-400 text-xs">First three digits are significant figures, fourth digit is multiplier</p>
-                                <p class="text-slate-500 text-xs mt-2 font-mono">Ex: 4702 = 47kΩ</p>
+                            <div style="padding: 0.75rem; background: rgba(0,0,0,0.2); border-radius: 6px; border: 1px solid var(--color-border);">
+                                <h5 style="color: var(--color-primary); font-weight: 500; margin-bottom: 0.5rem;">4-Digit Codes</h5>
+                                <p style="color: var(--color-text-secondary); font-size: 0.75rem;">First three digits are significant figures, fourth digit is multiplier.</p>
+                                <p style="color: var(--color-text-muted); font-size: 0.75rem; margin-top: 0.5rem; font-family: var(--font-mono);">Ex: 4702 = 47kΩ</p>
                             </div>
-                            <div class="p-3 bg-slate-800/50 rounded-lg border border-slate-700/30">
-                                <h5 class="font-medium text-primary-400 mb-2">EIA-96 Codes</h5>
-                                <p class="text-slate-400 text-xs">Two digits + letter code for high precision resistors (1% tolerance)</p>
-                                <p class="text-slate-500 text-xs mt-2 font-mono">Ex: 01A = 100Ω</p>
+                            <div style="padding: 0.75rem; background: rgba(0,0,0,0.2); border-radius: 6px; border: 1px solid var(--color-border);">
+                                <h5 style="color: var(--color-primary); font-weight: 500; margin-bottom: 0.5rem;">EIA-96 Codes</h5>
+                                <p style="color: var(--color-text-secondary); font-size: 0.75rem;">Two digits + letter code for high precision (1%).</p>
+                                <p style="color: var(--color-text-muted); font-size: 0.75rem; margin-top: 0.5rem; font-family: var(--font-mono);">Ex: 01A = 100Ω</p>
                             </div>
                         </div>
                     </div>
@@ -224,11 +209,13 @@ export class SMDCalculator {
             btn.classList.toggle('active', isActive);
 
             if (isActive) {
-                btn.classList.add('bg-slate-800', 'border-primary-500', 'text-primary-400', 'shadow-lg', 'shadow-primary-500/10');
-                btn.classList.remove('border-slate-700', 'text-slate-400', 'hover:border-slate-600');
+                btn.style.borderColor = 'var(--color-primary)';
+                btn.style.boxShadow = '0 0 10px rgba(0, 212, 255, 0.2)';
+                btn.querySelector('div:first-child').style.color = '#fff';
             } else {
-                btn.classList.remove('bg-slate-800', 'border-primary-500', 'text-primary-400', 'shadow-lg', 'shadow-primary-500/10');
-                btn.classList.add('border-slate-700', 'text-slate-400', 'hover:border-slate-600');
+                btn.style.borderColor = 'var(--color-border)';
+                btn.style.boxShadow = 'none';
+                btn.querySelector('div:first-child').style.color = 'var(--color-text-main)';
             }
         });
     }
@@ -249,9 +236,11 @@ export class SMDCalculator {
             'eia-96': '01A'
         };
 
-        helpText.textContent = helpTexts[this.codeType];
-        codeInput.placeholder = placeholders[this.codeType];
-        codeInput.maxLength = this.codeType === 'eia-96' ? 3 : (this.codeType === '4-digit' ? 4 : 3);
+        if (helpText && codeInput) {
+            helpText.textContent = helpTexts[this.codeType];
+            codeInput.placeholder = placeholders[this.codeType];
+            codeInput.maxLength = this.codeType === 'eia-96' ? 3 : (this.codeType === '4-digit' ? 4 : 3);
+        }
     }
 
     calculate() {
@@ -282,21 +271,21 @@ export class SMDCalculator {
             this.showResult({
                 title: 'Decoded Resistance',
                 content: `
-                    <div class="text-center">
-                        <p class="text-3xl font-bold text-white mb-2 tracking-tight">${result.formattedValue}</p>
-                        <p class="text-sm text-slate-400 mb-4">${result.details}</p>
-                        <div class="grid grid-cols-3 gap-2 text-xs text-slate-500 border-t border-slate-700/50 pt-3">
+                    <div style="text-align: center;">
+                        <p style="font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; letter-spacing: -0.02em;">${result.formattedValue}</p>
+                        <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 1rem;">${result.details}</p>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; font-size: 0.75rem; border-top: 1px solid var(--color-border); padding-top: 0.75rem;">
                             <div>
-                                <span class="block text-slate-600 uppercase tracking-wider text-[10px]">Code</span>
-                                <span class="font-mono text-slate-300">${code}</span>
+                                <span style="display: block; color: var(--color-text-muted); text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.05em;">Code</span>
+                                <span style="font-family: var(--font-mono); color: var(--color-text-main);">${code}</span>
                             </div>
                             <div>
-                                <span class="block text-slate-600 uppercase tracking-wider text-[10px]">Type</span>
-                                <span class="text-slate-300">${this.codeType}</span>
+                                <span style="display: block; color: var(--color-text-muted); text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.05em;">Type</span>
+                                <span style="color: var(--color-text-main);">${this.codeType}</span>
                             </div>
                             <div>
-                                <span class="block text-slate-600 uppercase tracking-wider text-[10px]">Calc</span>
-                                <span class="font-mono text-slate-300">${result.calculation}</span>
+                                <span style="display: block; color: var(--color-text-muted); text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.05em;">Calc</span>
+                                <span style="font-family: var(--font-mono); color: var(--color-text-main);">${result.calculation}</span>
                             </div>
                         </div>
                     </div>
@@ -312,11 +301,11 @@ export class SMDCalculator {
             this.showResult({
                 title: 'Error',
                 content: `
-                    <div class="flex items-center gap-3 text-red-400 bg-red-900/20 p-3 rounded-lg border border-red-500/30">
-                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; color: #f87171; background: rgba(248, 113, 113, 0.1); padding: 0.75rem; border-radius: 6px; border: 1px solid rgba(248, 113, 113, 0.2);">
+                        <svg style="width: 20px; height: 20px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        <p class="text-sm font-medium">${result.error}</p>
+                        <p style="font-size: 0.9rem; font-weight: 500;">${result.error}</p>
                     </div>
                 `
             });
@@ -353,19 +342,19 @@ export class SMDCalculator {
             this.showResult({
                 title: 'SMD Code',
                 content: `
-                    <div class="text-center">
-                        <div class="inline-block bg-slate-900 text-white px-8 py-4 rounded-lg font-mono text-3xl font-bold mb-3 shadow-inner border border-slate-700">
+                    <div style="text-align: center;">
+                        <div style="display: inline-block; background: #0f172a; color: #fff; padding: 0.75rem 2rem; border-radius: 6px; font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; border: 1px solid var(--color-border); box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);">
                             ${result.code}
                         </div>
-                        <p class="text-sm text-slate-400 mb-4">${result.details}</p>
-                        <div class="grid grid-cols-2 gap-2 text-xs text-slate-500 border-t border-slate-700/50 pt-3">
+                        <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 1rem;">${result.details}</p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.75rem; border-top: 1px solid var(--color-border); padding-top: 0.75rem;">
                             <div>
-                                <span class="block text-slate-600 uppercase tracking-wider text-[10px]">Input</span>
-                                <span class="font-mono text-slate-300">${this.calculator.formatResistance(resistanceOhms)}</span>
+                                <span style="display: block; color: var(--color-text-muted); text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.05em;">Input</span>
+                                <span style="font-family: var(--font-mono); color: var(--color-text-main);">${this.calculator.formatResistance(resistanceOhms)}</span>
                             </div>
                             <div>
-                                <span class="block text-slate-600 uppercase tracking-wider text-[10px]">Actual</span>
-                                <span class="font-mono text-slate-300">${result.formattedValue}</span>
+                                <span style="display: block; color: var(--color-text-muted); text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.05em;">Actual</span>
+                                <span style="font-family: var(--font-mono); color: var(--color-text-main);">${result.formattedValue}</span>
                             </div>
                         </div>
                     </div>
@@ -381,11 +370,11 @@ export class SMDCalculator {
             this.showResult({
                 title: 'Error',
                 content: `
-                    <div class="flex items-center gap-3 text-red-400 bg-red-900/20 p-3 rounded-lg border border-red-500/30">
-                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; color: #f87171; background: rgba(248, 113, 113, 0.1); padding: 0.75rem; border-radius: 6px; border: 1px solid rgba(248, 113, 113, 0.2);">
+                        <svg style="width: 20px; height: 20px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        <p class="text-sm font-medium">${result.error}</p>
+                        <p style="font-size: 0.9rem; font-weight: 500;">${result.error}</p>
                     </div>
                 `
             });
@@ -404,8 +393,8 @@ export class SMDCalculator {
 
         if (resultsContainer && resultContent) {
             resultContent.innerHTML = `
-                <h5 class="font-semibold text-slate-300 mb-3 flex items-center gap-2">
-                    <svg class="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <h5 style="font-weight: 600; color: var(--color-text-main); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <svg style="width: 16px; height: 16px; color: var(--color-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                     ${result.title}

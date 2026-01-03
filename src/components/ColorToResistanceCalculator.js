@@ -22,23 +22,23 @@ export class ColorToResistanceCalculator {
 
     render() {
         this.container.innerHTML = `
-            <div class="glass-card p-6 slide-up border border-slate-700/50 bg-slate-900/80 backdrop-blur-md">
-                <h3 class="text-xl font-bold text-slate-200 mb-6 font-display flex items-center gap-3">
-                    <span class="w-8 h-8 rounded-lg bg-primary-500/20 flex items-center justify-center text-primary-400">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="card-glass slide-up">
+                <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--color-text-main); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                    <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(0, 212, 255, 0.1); border-radius: 8px; color: var(--color-primary);">
+                        <svg class="w-5 h-5" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v6a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
                         </svg>
                     </span>
                     Color Code to Resistance
                 </h3>
                 
-                <div class="space-y-6">
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                     ${this.renderBandSelectors()}
                     
-                    <div class="pt-4 border-t border-slate-700/50">
-                        <button id="calculate-btn" class="btn-primary w-full py-3 px-6 text-base font-semibold shadow-lg shadow-primary-500/20 hover:shadow-primary-500/40 transition-all duration-300">
-                            <span class="flex items-center justify-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div style="padding-top: 1rem; border-top: 1px solid var(--color-border);">
+                        <button id="calculate-btn" class="btn-primary">
+                            <span style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
                                 </svg>
                                 Calculate Resistance
@@ -46,15 +46,15 @@ export class ColorToResistanceCalculator {
                         </button>
                     </div>
                     
-                    <div id="calculation-steps" class="hidden rounded-xl bg-slate-800/50 border border-slate-700/50 p-4 backdrop-blur-sm">
-                        <h4 class="font-semibold text-slate-200 mb-3 flex items-center gap-2">
-                            <svg class="w-5 h-5 text-primary-400" fill="currentColor" viewBox="0 0 20 20">
+                    <div id="calculation-steps" class="hidden" style="background: rgba(0,0,0,0.2); border: 1px solid var(--color-border); border-radius: 8px; padding: 1rem;">
+                        <h4 style="font-weight: 600; color: var(--color-text-main); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <svg style="width: 16px; height: 16px; color: var(--color-primary);" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
                                 <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
                             </svg>
                             Calculation Steps
                         </h4>
-                        <div id="steps-content" class="text-sm text-slate-400 space-y-2 font-mono"></div>
+                        <div id="steps-content" style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 0.5rem;"></div>
                     </div>
                 </div>
             </div>
@@ -65,28 +65,23 @@ export class ColorToResistanceCalculator {
         const bands = this.getBandConfiguration();
 
         return bands.map((band, index) => `
-            <div class="space-y-2 group">
-                <label class="block text-sm font-semibold text-slate-300 flex items-center gap-2 group-hover:text-primary-400 transition-colors">
-                    <span class="w-6 h-6 bg-slate-800 border border-slate-700 text-slate-400 rounded-full flex items-center justify-center text-xs group-hover:border-primary-500 group-hover:text-primary-400 transition-all">${index + 1}</span>
+            <div class="control-group">
+                <label class="control-label" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="width: 20px; height: 20px; background: var(--color-bg-main); border: 1px solid var(--color-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;">${index + 1}</span>
                     ${band.label}
-                    ${band.required ? '<span class="text-red-400">*</span>' : ''}
+                    ${band.required ? '<span style="color: #ef4444;">*</span>' : ''}
                 </label>
-                <div class="relative">
+                <div style="position: relative;">
                     <select 
                         id="band-${index}" 
-                        class="w-full bg-slate-800 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 appearance-none cursor-pointer hover:border-slate-600 transition-colors"
+                        class="select-input"
                         ${band.required ? 'required' : ''}
                     >
                         ${this.renderColorOptions(band.type, index)}
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </div>
                 </div>
-                <p class="text-xs text-slate-500 flex items-center gap-1">
-                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 4px; display: flex; align-items: center; gap: 4px;">
+                    <svg style="width: 10px; height: 10px;" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
                     </svg>
                     ${band.description}
@@ -245,9 +240,9 @@ export class ColorToResistanceCalculator {
         const steps = this.calculator.getCalculationSteps(colors, this.bandCount);
 
         stepsContent.innerHTML = steps.map(step => `
-            <div class="flex justify-between border-b border-slate-700/50 last:border-0 pb-2 last:pb-0">
-                <span class="text-slate-400">${step.description}</span>
-                <span class="font-mono text-primary-400">${step.value}</span>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; margin-bottom: 0.5rem; last:border-bottom: 0;">
+                <span style="color: var(--color-text-secondary);">${step.description}</span>
+                <span style="font-family: var(--font-mono); color: var(--color-primary);">${step.value}</span>
             </div>
         `).join('');
 

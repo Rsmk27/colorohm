@@ -22,25 +22,25 @@ export class ResistorDisplay {
         const isSMD = this.mode === 'smd-calculator';
 
         this.container.innerHTML = `
-            <div class="glass-card p-6 scale-in border border-slate-700/50 bg-slate-900/80 backdrop-blur-md">
-                <h3 class="text-lg font-bold text-slate-200 mb-6 font-display">
+            <div class="card-glass scale-in">
+                <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--color-text-main); margin-bottom: 1.5rem; text-align: center;">
                     ${isSMD ? 'SMD Resistor' : `${this.bandCount}-Band Resistor`}
                 </h3>
                 
-                <div class="flex justify-center items-center mb-6 p-4 bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-xl border border-slate-700/50 shadow-inner">
+                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 1.5rem; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid var(--color-border); box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
                     ${isSMD ? this.renderSMDResistor() : this.renderThroughHoleResistor()}
                 </div>
                 
-                <div id="resistance-result" class="result-display text-center mb-4">
-                    <p class="text-sm font-medium text-slate-400 mb-2">Calculated Value</p>
-                    <p class="text-3xl font-bold bg-gradient-to-r from-primary-400 to-primary-200 bg-clip-text text-transparent" id="result-value">0 Ω ± 5%</p>
-                    <p class="text-sm text-slate-500 mt-2" id="result-details">Select values to calculate</p>
+                <div id="resistance-result" style="text-align: center; margin-bottom: 1rem;">
+                    <p style="font-size: 0.85rem; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 0.5rem;">Calculated Value</p>
+                    <p style="font-size: 2rem; font-weight: 700; background: linear-gradient(to right, var(--color-primary), #a5f3fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" id="result-value">0 Ω ± 5%</p>
+                    <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-top: 0.5rem;" id="result-details">Select values to calculate</p>
                 </div>
 
                 <!-- Copy Button -->
-                <div class="flex justify-center mb-4">
-                    <button id="copy-value-btn" class="copy-btn">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+                    <button id="copy-value-btn" style="display: flex; align-items: center; gap: 0.5rem; background: transparent; border: 1px solid var(--color-border); color: var(--color-text-secondary); padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;">
+                        <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                         </svg>
                         <span>Copy Value</span>
@@ -63,8 +63,8 @@ export class ResistorDisplay {
         const bandSpacing = this.calculateBandSpacing();
 
         return `
-            <div class="resistor-container w-full">
-                <svg viewBox="0 0 ${bodyWidth + leadLength * 2} ${bodyHeight + 20}" class="resistor-svg w-full h-auto filter drop-shadow-lg max-w-[400px] mx-auto block">
+            <div class="resistor-container" style="width: 100%; max-width: 400px;">
+                <svg viewBox="0 0 ${bodyWidth + leadLength * 2} ${bodyHeight + 20}" style="width: 100%; height: auto; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));">
                     <!-- Left lead -->
                     <rect x="0" y="${bodyHeight / 2 - 1.5}" width="${leadLength}" height="3" 
                           fill="url(#leadGradient)" rx="1.5"/>
@@ -101,8 +101,8 @@ export class ResistorDisplay {
 
     renderSMDResistor() {
         return `
-            <div class="smd-resistor bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 text-center min-w-[140px] min-h-[70px] flex items-center justify-center shadow-xl border border-slate-700">
-                <span id="smd-code" class="text-slate-200 font-mono text-2xl font-bold tracking-wider">000</span>
+            <div style="background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 8px; padding: 1.5rem; text-align: center; min-width: 140px; min-height: 70px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border: 1px solid var(--color-border);">
+                <span id="smd-code" style="color: var(--color-text-main); font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.1em;">000</span>
             </div>
         `;
     }
@@ -217,9 +217,9 @@ export class ResistorDisplay {
     renderAdditionalInfo() {
         if (this.mode === 'smd-calculator') {
             return `
-                <div class="info-card bg-slate-800/50 border border-slate-700/50">
-                    <p class="text-sm text-slate-400">
-                        <strong class="text-slate-200">SMD Codes:</strong> 3-digit codes where first two digits are significant figures 
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 8px; padding: 1rem;">
+                    <p style="font-size: 0.85rem; color: var(--color-text-secondary); line-height: 1.5;">
+                        <strong style="color: var(--color-text-main);">SMD Codes:</strong> 3-digit codes where first two digits are significant figures 
                         and the third is the multiplier (number of zeros).
                     </p>
                 </div>
@@ -227,34 +227,34 @@ export class ResistorDisplay {
         }
 
         return `
-            <div class="space-y-3 p-4 bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-xl border border-slate-700/50">
-                <div class="flex justify-between text-sm items-center">
-                    <span class="text-slate-400 flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid var(--color-border);">
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;">
+                    <span style="color: var(--color-text-muted); display: flex; align-items: center; gap: 0.5rem;">
+                        <svg style="width: 14px; height: 14px;" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"></path>
                         </svg>
                         Precision:
                     </span>
-                    <span class="font-semibold text-slate-200">${this.bandCount >= 5 ? 'High (3 digits)' : 'Standard (2 digits)'}</span>
+                    <span style="font-weight: 600; color: var(--color-text-main);">${this.bandCount >= 5 ? 'High (3 digits)' : 'Standard (2 digits)'}</span>
                 </div>
-                <div class="flex justify-between text-sm items-center">
-                    <span class="text-slate-400 flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;">
+                    <span style="color: var(--color-text-muted); display: flex; align-items: center; gap: 0.5rem;">
+                        <svg style="width: 14px; height: 14px;" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                         </svg>
                         Tolerance:
                     </span>
-                    <span class="font-semibold text-slate-200">±5% (typical)</span>
+                    <span style="font-weight: 600; color: var(--color-text-main);">±5% (typical)</span>
                 </div>
                 ${this.bandCount === 6 ? `
-                <div class="flex justify-between text-sm items-center">
-                    <span class="text-slate-400 flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;">
+                    <span style="color: var(--color-text-muted); display: flex; align-items: center; gap: 0.5rem;">
+                        <svg style="width: 14px; height: 14px;" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
                         </svg>
                         Temp. Coefficient:
                     </span>
-                    <span class="font-semibold text-slate-200">Included</span>
+                    <span style="font-weight: 600; color: var(--color-text-main);">Included</span>
                 </div>
                 ` : ''}
             </div>
@@ -275,17 +275,19 @@ export class ResistorDisplay {
             navigator.clipboard.writeText(text).then(() => {
                 const copyBtn = document.getElementById('copy-value-btn');
                 const originalHTML = copyBtn.innerHTML;
+                const originalStyle = copyBtn.getAttribute('style');
 
-                copyBtn.classList.add('copied');
+                copyBtn.style.borderColor = 'var(--color-primary)';
+                copyBtn.style.color = 'var(--color-primary)';
                 copyBtn.innerHTML = `
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                     <span>Copied!</span>
                 `;
 
                 setTimeout(() => {
-                    copyBtn.classList.remove('copied');
+                    copyBtn.setAttribute('style', originalStyle);
                     copyBtn.innerHTML = originalHTML;
                 }, 2000);
             });

@@ -23,32 +23,32 @@ export class App {
 
     render() {
         this.container.innerHTML = `
-            <div class="min-h-screen flex flex-col bg-slate-900">
-                <div id="header"></div>
+            <div class="app-container">
+                <div id="header" class="header-section"></div>
                 
-                <main class="flex-1 container mx-auto px-4 py-8 max-w-6xl">
-                    <div id="mode-selector" class="mb-8"></div>
+                <main class="main-content">
+                    <div id="mode-selector" class="mode-selector-section"></div>
                     
-                    <div class="grid lg:grid-cols-2 gap-8 mb-8">
-                        <div class="order-2 lg:order-1">
-                            <div id="calculator-container" class="space-y-6">
+                    <div class="calculator-grid">
+                        <div class="calculator-panel">
+                            <div id="calculator-container" class="calculator-stack">
                                 <div id="color-to-resistance" class="calculator-section"></div>
                                 <div id="resistance-to-color" class="calculator-section hidden"></div>
                                 <div id="smd-calculator" class="calculator-section hidden"></div>
                             </div>
                         </div>
                         
-                        <div class="order-1 lg:order-2">
-                            <div id="resistor-display" class="sticky top-8"></div>
+                        <div class="display-panel">
+                            <div id="resistor-display" class="resistor-display-wrapper"></div>
                         </div>
                     </div>
                     
-                    <div id="info-section" class="mt-12">
+                    <div id="info-section" class="info-section mt-4">
                         ${this.renderInfoSection()}
                     </div>
                 </main>
                 
-                <div id="footer"></div>
+                <div id="footer" class="footer-section"></div>
             </div>
         `;
 
@@ -116,7 +116,14 @@ export class App {
         }
 
         // Update resistor display mode
-        this.components.resistorDisplay.setMode(mode, this.currentBandCount);
+        if (this.components.resistorDisplay) {
+            this.components.resistorDisplay.setMode(mode, this.currentBandCount);
+        }
+
+        // Propagate band count to ColorToResistanceCalculator
+        if (this.components.colorToResistance && typeof this.components.colorToResistance.setBandCount === 'function') {
+            this.components.colorToResistance.setBandCount(this.currentBandCount);
+        }
 
         // Update the active calculator
         this.updateDisplay();
@@ -131,12 +138,20 @@ export class App {
         displayElement.classList.add('pulse-subtle');
         setTimeout(() => {
             displayElement.classList.remove('pulse-subtle');
-        }, 2000);
+        }, 300);
     }
 
     updateDisplay() {
-        // Trigger initial calculation based on current mode
-        const activeCalculator = this.components[this.currentMode.replace('-', '')];
+        // Map mode strings to component property names
+        const componentMap = {
+            'color-to-resistance': 'colorToResistance',
+            'resistance-to-color': 'resistanceToColor',
+            'smd-calculator': 'smdCalculator'
+        };
+
+        const componentName = componentMap[this.currentMode];
+        const activeCalculator = this.components[componentName];
+
         if (activeCalculator && activeCalculator.calculate) {
             activeCalculator.calculate();
         }
@@ -184,85 +199,41 @@ export class App {
 
     renderInfoSection() {
         return `
-            <div class="glass-card p-8 fade-in border border-slate-700/50">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-700 rounded-lg flex items-center justify-center shadow-lg shadow-primary-500/20">
-                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <h2 class="text-3xl font-bold font-display bg-gradient-to-r from-primary-400 to-primary-200 bg-clip-text text-transparent">
-                        About Resistor Color Codes
-                    </h2>
+            <div class="card-glass slide-up">
+                <div class="section-header mb-4">
+                    <h2 class="text-xl font-bold">About Resistor Color Codes</h2>
                 </div>
                 
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="space-y-6">
-                        <div class="accent-border pl-4 border-l-4 border-primary-500">
-                            <h3 class="text-xl font-semibold text-slate-100 mb-4 font-display">How It Works</h3>
-                            <p class="text-slate-400 mb-4 leading-relaxed">
+                <div class="info-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div class="info-text">
+                        <div style="border-left: 4px solid var(--color-primary); padding-left: 1rem; margin-bottom: 1.5rem;">
+                            <h3 style="font-size: 1.1rem; color: var(--color-text-main); margin-bottom: 0.5rem;">How It Works</h3>
+                            <p style="color: var(--color-text-secondary); line-height: 1.6;">
                                 Resistor color codes use colored bands to indicate the resistance value and tolerance. 
                                 Each color represents a specific digit or multiplier, allowing you to determine the 
                                 resistance without measuring equipment.
                             </p>
                         </div>
                         
-                        <div class="space-y-3">
-                            <div class="info-card bg-slate-800/50 border border-slate-700/50 hover:border-primary-500/30 transition-colors">
-                                <div class="flex items-start gap-3">
-                                    <div class="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 shadow-lg shadow-primary-500/20">
-                                        <span class="text-white font-bold text-sm">3</span>
-                                    </div>
-                                    <div>
-                                        <strong class="text-slate-200">3-Band:</strong>
-                                        <p class="text-slate-400 text-sm mt-1">Two significant digits + multiplier</p>
-                                    </div>
-                                </div>
+                        <div class="band-info-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <div class="info-item" style="background: rgba(255,255,255,0.03); padding: 0.75rem; border-radius: 6px; display: flex; align-items: center; gap: 1rem;">
+                                <div style="background: var(--color-primary); width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: black; font-weight: bold; font-size: 0.8rem;">3</div>
+                                <div><strong style="color: var(--color-text-main);">3-Band:</strong> <span style="color: var(--color-text-muted);">Digits + Multiplier</span></div>
                             </div>
-                            
-                            <div class="info-card bg-slate-800/50 border border-slate-700/50 hover:border-green-500/30 transition-colors">
-                                <div class="flex items-start gap-3">
-                                    <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 shadow-lg shadow-green-500/20">
-                                        <span class="text-white font-bold text-sm">4</span>
-                                    </div>
-                                    <div>
-                                        <strong class="text-slate-200">4-Band:</strong>
-                                        <p class="text-slate-400 text-sm mt-1">Two significant digits + multiplier + tolerance</p>
-                                    </div>
-                                </div>
+                            <div class="info-item" style="background: rgba(255,255,255,0.03); padding: 0.75rem; border-radius: 6px; display: flex; align-items: center; gap: 1rem;">
+                                <div style="background: #4ade80; width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: black; font-weight: bold; font-size: 0.8rem;">4</div>
+                                <div><strong style="color: var(--color-text-main);">4-Band:</strong> <span style="color: var(--color-text-muted);">Digits + Multiplier + Tolerance</span></div>
                             </div>
-                            
-                            <div class="info-card bg-slate-800/50 border border-slate-700/50 hover:border-purple-500/30 transition-colors">
-                                <div class="flex items-start gap-3">
-                                    <div class="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 shadow-lg shadow-purple-500/20">
-                                        <span class="text-white font-bold text-sm">5</span>
-                                    </div>
-                                    <div>
-                                        <strong class="text-slate-200">5-Band:</strong>
-                                        <p class="text-slate-400 text-sm mt-1">Three significant digits + multiplier + tolerance</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="info-card bg-slate-800/50 border border-slate-700/50 hover:border-orange-500/30 transition-colors">
-                                <div class="flex items-start gap-3">
-                                    <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 shadow-lg shadow-orange-500/20">
-                                        <span class="text-white font-bold text-sm">6</span>
-                                    </div>
-                                    <div>
-                                        <strong class="text-slate-200">6-Band:</strong>
-                                        <p class="text-slate-400 text-sm mt-1">Three significant digits + multiplier + tolerance + temp coefficient</p>
-                                    </div>
-                                </div>
+                            <div class="info-item" style="background: rgba(255,255,255,0.03); padding: 0.75rem; border-radius: 6px; display: flex; align-items: center; gap: 1rem;">
+                                <div style="background: #a855f7; width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.8rem;">5</div>
+                                <div><strong style="color: var(--color-text-main);">5-Band:</strong> <span style="color: var(--color-text-muted);">3 Digits + Multiplier + Tolerance</span></div>
                             </div>
                         </div>
                     </div>
                     
-                    <div>
-                        <div class="accent-border pl-4 mb-4 border-l-4 border-primary-500">
-                            <h3 class="text-xl font-semibold text-slate-100 font-display">Color Reference</h3>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 text-sm">
+                    <div class="color-reference">
+                        <h3 style="font-size: 1.1rem; color: var(--color-text-main); margin-bottom: 1rem;">Color Reference</h3>
+                        <div class="color-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
                             ${this.renderColorReference()}
                         </div>
                     </div>
@@ -286,10 +257,10 @@ export class App {
         ];
 
         return colors.map(color => `
-            <div class="flex items-center space-x-2 p-2 rounded-lg hover:bg-slate-800 transition-colors border border-transparent hover:border-slate-700">
-                <div class="color-preview" style="background-color: ${color.color}; ${color.name === 'White' ? 'border-color: #475569;' : ''} ${color.name === 'Black' ? 'border-color: #475569;' : ''}"></div>
-                <span class="text-slate-300 font-medium">${color.name}</span>
-                <span class="text-slate-500 text-xs ml-auto font-mono">(${color.value})</span>
+            <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border-radius: 4px; background: rgba(255,255,255,0.03);">
+                <div style="width: 12px; height: 12px; border-radius: 2px; background-color: ${color.color}; border: 1px solid rgba(255,255,255,0.1);"></div>
+                <span style="font-size: 0.85rem; color: var(--color-text-secondary);">${color.name}</span>
+                <span style="margin-left: auto; font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-text-muted);">${color.value}</span>
             </div>
         `).join('');
     }

@@ -4,145 +4,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ColorOhm - Professional Resistor Calculator</title>
+    <title>ColorOhm - Precision Resistor Calculator</title>
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta name="description" content="Professional resistor color code calculator supporting 3, 4, 5, and 6-band resistors with SMD support. Calculate resistance values and predict color codes with precision.">
+    <meta name="description"
+        content="Professional resistor color code calculator used by electronics students, engineers, and technicians. Precision utility for 3-6 band resistors.">
 
     <!-- SEO & Social Media -->
-    <meta name="keywords" content="resistor calculator, color code calculator, SMD resistor code, electronics tool, ohm's law, 4 band resistor, 5 band resistor, resistor color chart">
+    <meta name="keywords" content="resistor calculator, color code, engineering tool, ohm law, electronics utility">
     <meta name="author" content="RSMK Technologies">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://colorohm.rsmk.me/" />
-    
-    <!-- Open Graph / Facebook -->
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://colorohm.rsmk.me/">
-    <meta property="og:title" content="ColorOhm - Professional Resistor Calculator">
-    <meta property="og:description" content="Professional resistor color code calculator supporting 3, 4, 5, and 6-band resistors with SMD support. Calculate resistance values and predict color codes with precision.">
+    <meta property="og:title" content="ColorOhm - Precision Resistor Calculator">
+    <meta property="og:description"
+        content="Professional grade electronics utility for calculating resistor color codes.">
     <meta property="og:image" content="https://colorohm.rsmk.me/favicon.png">
     <meta property="og:site_name" content="ColorOhm">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary">
-    <meta property="twitter:url" content="https://colorohm.rsmk.me/">
-    <meta property="twitter:title" content="ColorOhm - Professional Resistor Calculator">
-    <meta property="twitter:description" content="Professional resistor color code calculator supporting 3, 4, 5, and 6-band resistors with SMD support. Calculate resistance values and predict color codes with precision.">
-    <meta property="twitter:image" content="https://colorohm.rsmk.me/favicon.png">
-
-    <!-- Google Fonts -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
         rel="stylesheet">
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Outfit', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    },
-                    colors: {
-                        primary: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            200: '#bae6fd',
-                            300: '#7dd3fc',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                            950: '#082f49',
-                        },
-                        accent: {
-                            50: '#fff7ed',
-                            100: '#ffedd5',
-                            200: '#fed7aa',
-                            300: '#fdba74',
-                            400: '#fb923c',
-                            500: '#f97316',
-                            600: '#ea580c',
-                            700: '#c2410c',
-                            800: '#9a3412',
-                            900: '#7c2d12',
-                            950: '#431407',
-                        }
-                    },
-                    animation: {
-                        'blob': 'blob 7s infinite',
-                        'fade-in': 'fadeIn 0.5s ease-out forwards',
-                        'slide-up': 'slideUp 0.5s ease-out forwards',
-                        'slide-down': 'slideDown 0.5s ease-out forwards',
-                    },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                        slideDown: {
-                            '0%': { opacity: '0', transform: 'translateY(-20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Styles -->
     <link rel="stylesheet" href="src/styles/main.css">
 
-    <!-- Google tag (gtag.js) -->
+    <!-- Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7JK38PZP0S"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-7JK38PZP0S');
     </script>
 </head>
 
-<body
-    class="bg-slate-900 text-slate-100 min-h-screen transition-colors duration-300 selection:bg-primary-500 selection:text-white overflow-x-hidden">
+<body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WZNP2XNN" height="0" width="0"
             style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
 
-    <!-- Animated Background -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div
-            class="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/20 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob">
-        </div>
-        <div
-            class="absolute top-0 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-2000">
-        </div>
-        <div
-            class="absolute -bottom-32 left-1/3 w-96 h-96 bg-accent-500/20 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-4000">
-        </div>
-        <div
-            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)]">
-        </div>
-    </div>
-
-    <div id="app" class="relative z-10"></div>
+    <div id="app" class="app-root"></div>
     <script type="module" src="src/main.js"></script>
 </body>
 

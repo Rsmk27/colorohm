@@ -13,55 +13,50 @@ export class ResistanceToColorCalculator {
 
     render() {
         this.container.innerHTML = `
-            <div class="glass-card p-6 slide-up border border-slate-700/50 bg-slate-900/80 backdrop-blur-md">
-                <h3 class="text-xl font-bold text-slate-200 mb-6 font-display flex items-center gap-3">
-                    <span class="w-8 h-8 rounded-lg bg-primary-500/20 flex items-center justify-center text-primary-400">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="card-glass slide-up">
+                <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--color-text-main); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                    <span style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(0, 212, 255, 0.1); border-radius: 8px; color: var(--color-primary);">
+                        <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
                         </svg>
                     </span>
                     Resistance to Color Code
                 </h3>
                 
-                <div class="space-y-6">
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label class="block text-sm font-semibold text-slate-300">
-                                Resistance Value <span class="text-red-400">*</span>
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                        <div class="control-group">
+                            <label class="control-label">
+                                Resistance Value <span style="color: #ef4444;">*</span>
                             </label>
                             <input 
                                 type="number" 
                                 id="resistance-input" 
-                                class="w-full bg-slate-800 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 placeholder-slate-500" 
+                                class="select-input" 
                                 placeholder="e.g., 4.7, 100, 10000"
                                 step="any"
                                 min="0"
                             >
-                            <p class="text-xs text-slate-500">Enter the resistance value</p>
+                            <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 4px;">Enter the resistance value</p>
                         </div>
                         
-                        <div class="space-y-2">
-                            <label class="block text-sm font-semibold text-slate-300">Unit</label>
-                            <div class="relative">
-                                <select id="unit-select" class="w-full bg-slate-800 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 appearance-none cursor-pointer">
+                        <div class="control-group">
+                            <label class="control-label">Unit</label>
+                            <div style="position: relative;">
+                                <select id="unit-select" class="select-input">
                                     <option value="1">Ohms (Ω)</option>
                                     <option value="1000">Kiloohms (kΩ)</option>
                                     <option value="1000000">Megaohms (MΩ)</option>
                                     <option value="1000000000">Gigaohms (GΩ)</option>
                                 </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                    </svg>
-                                </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="space-y-2">
-                        <label class="block text-sm font-semibold text-slate-300">Preferred Tolerance</label>
-                        <div class="relative">
-                            <select id="tolerance-select" class="w-full bg-slate-800 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 appearance-none cursor-pointer">
+                    <div class="control-group">
+                        <label class="control-label">Preferred Tolerance</label>
+                        <div style="position: relative;">
+                            <select id="tolerance-select" class="select-input">
                                 <option value="20">±20% (No band)</option>
                                 <option value="10">±10% (Silver)</option>
                                 <option value="5" selected>±5% (Gold)</option>
@@ -72,57 +67,64 @@ export class ResistanceToColorCalculator {
                                 <option value="0.1">±0.1% (Violet)</option>
                                 <option value="0.05">±0.05% (Grey)</option>
                             </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </div>
                         </div>
                     </div>
                     
-                    <div class="space-y-2">
-                        <label class="block text-sm font-semibold text-slate-300">Preferred Band Count</label>
-                        <div class="flex gap-3">
-                            <button data-bands="4" class="band-preference-btn active flex-1 py-2.5 px-4 rounded-lg border text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500">4-Band</button>
-                            <button data-bands="5" class="band-preference-btn flex-1 py-2.5 px-4 rounded-lg border text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500">5-Band</button>
+                    <div class="control-group">
+                        <label class="control-label">Preferred Band Count</label>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button data-bands="4" class="band-preference-btn active" style="flex: 1; padding: 0.625rem 1rem; border-radius: 4px; border: 1px solid var(--color-border); background: var(--color-bg-main); color: var(--color-text-secondary); cursor: pointer; transition: all 0.2s;">4-Band</button>
+                            <button data-bands="5" class="band-preference-btn" style="flex: 1; padding: 0.625rem 1rem; border-radius: 4px; border: 1px solid var(--color-border); background: var(--color-bg-main); color: var(--color-text-secondary); cursor: pointer; transition: all 0.2s;">5-Band</button>
                         </div>
+                        <style>
+                            .band-preference-btn:hover {
+                                border-color: var(--color-primary);
+                                color: var(--color-text-main);
+                            }
+                            .band-preference-btn.active {
+                                background: var(--color-primary);
+                                color: #000;
+                                border-color: var(--color-primary);
+                                font-weight: 600;
+                            }
+                        </style>
                     </div>
                     
-                    <div class="pt-4 border-t border-slate-700/50">
-                        <button id="predict-btn" class="btn-primary w-full py-3 px-6 text-base font-semibold shadow-lg shadow-primary-500/20 hover:shadow-primary-500/40 transition-all duration-300">
+                    <div style="padding-top: 1rem; border-top: 1px solid var(--color-border);">
+                        <button id="predict-btn" class="btn-primary">
                             Find Color Code
                         </button>
                     </div>
                     
-                    <div id="prediction-results" class="hidden space-y-4">
-                        <div class="bg-green-900/20 border border-green-500/30 rounded-xl p-4 backdrop-blur-sm">
-                            <h4 class="font-semibold text-green-400 mb-3 flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div id="prediction-results" class="hidden" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="background: rgba(0, 255, 0, 0.05); border: 1px solid rgba(0, 255, 0, 0.2); border-radius: 8px; padding: 1rem;">
+                            <h4 style="font-weight: 600; color: #4ade80; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                                 Recommended Color Code:
                             </h4>
-                            <div id="primary-result" class="space-y-2"></div>
+                            <div id="primary-result"></div>
                         </div>
                         
-                        <div id="alternative-results" class="hidden bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 backdrop-blur-sm">
-                            <h4 class="font-semibold text-primary-400 mb-3 flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div id="alternative-results" class="hidden" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-border); border-radius: 8px; padding: 1rem;">
+                            <h4 style="font-weight: 600; color: var(--color-primary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                                 </svg>
                                 Alternative Options:
                             </h4>
-                            <div id="alternatives-content" class="space-y-2"></div>
+                            <div id="alternatives-content" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
                         </div>
                         
-                        <div id="accuracy-warning" class="hidden bg-yellow-900/20 border border-yellow-500/30 rounded-xl p-4 backdrop-blur-sm">
-                            <h4 class="font-semibold text-yellow-400 mb-2 flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div id="accuracy-warning" class="hidden" style="background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3); border-radius: 8px; padding: 1rem;">
+                            <h4 style="font-weight: 600; color: #facc15; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                                 </svg>
                                 Accuracy Note:
                             </h4>
-                            <p class="text-yellow-200/80 text-sm leading-relaxed" id="warning-content"></p>
+                            <p id="warning-content" style="font-size: 0.9rem; color: #fef08a; opacity: 0.9;"></p>
                         </div>
                     </div>
                 </div>
@@ -140,8 +142,8 @@ export class ResistanceToColorCalculator {
 
         // Real-time calculation on input
         [resistanceInput, unitSelect, toleranceSelect].forEach(element => {
-            element.addEventListener('input', () => this.predict());
-            element.addEventListener('change', () => this.predict());
+            element.addEventListener('input', () => this.calculate());
+            element.addEventListener('change', () => this.calculate());
         });
 
         // Band preference buttons
@@ -149,41 +151,26 @@ export class ResistanceToColorCalculator {
             btn.addEventListener('click', (e) => {
                 this.preferredBandCount = parseInt(e.target.dataset.bands);
                 this.updateBandPreferenceButtons();
-                this.predict();
+                this.calculate();
             });
         });
 
         // Predict button
         predictBtn.addEventListener('click', () => {
-            this.predict();
+            this.calculate();
             this.showDetailedResults();
         });
 
         // Enter key support
         resistanceInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                this.predict();
+                this.calculate();
                 this.showDetailedResults();
             }
         });
     }
 
-    updateBandPreferenceButtons() {
-        this.container.querySelectorAll('.band-preference-btn').forEach(btn => {
-            const isActive = parseInt(btn.dataset.bands) === this.preferredBandCount;
-            btn.classList.toggle('active', isActive);
-
-            if (isActive) {
-                btn.classList.add('bg-primary-600', 'text-white', 'border-primary-500', 'shadow-lg', 'shadow-primary-500/20');
-                btn.classList.remove('bg-slate-800', 'text-slate-400', 'border-slate-700', 'hover:bg-slate-700');
-            } else {
-                btn.classList.remove('bg-primary-600', 'text-white', 'border-primary-500', 'shadow-lg', 'shadow-primary-500/20');
-                btn.classList.add('bg-slate-800', 'text-slate-400', 'border-slate-700', 'hover:bg-slate-700');
-            }
-        });
-    }
-
-    predict() {
+    calculate() {
         const resistanceInput = this.container.querySelector('#resistance-input');
         const unitSelect = this.container.querySelector('#unit-select');
         const toleranceSelect = this.container.querySelector('#tolerance-select');
@@ -193,34 +180,48 @@ export class ResistanceToColorCalculator {
         const tolerance = parseFloat(toleranceSelect.value);
 
         if (isNaN(inputValue) || inputValue <= 0) {
+            this.hideResults();
             this.onUpdate({
                 formattedValue: '0 Ω',
-                details: 'Enter a valid resistance value',
+                details: 'Enter valid resistance',
                 colors: ['black', 'black', 'black', 'brown']
             });
-            this.hideResults();
             return;
         }
 
         const resistanceOhms = inputValue * unit;
-        const result = this.calculator.predictColors(resistanceOhms, tolerance, this.preferredBandCount);
 
-        if (result.success) {
-            this.onUpdate({
-                formattedValue: result.formattedValue,
-                details: result.details,
-                colors: result.colors,
-                prediction: result
-            });
-            this.showBasicResult(result);
-        } else {
-            this.onUpdate({
-                formattedValue: 'Invalid',
-                details: result.error || 'Cannot represent with standard colors',
-                colors: ['black', 'black', 'black', 'brown']
-            });
-            this.showError(result.error);
+        try {
+            // Updated method name (predictColors) and argument order (resistance, tolerance, preferredBandCount)
+            const result = this.calculator.predictColors(resistanceOhms, tolerance, this.preferredBandCount);
+
+            if (result.success) {
+                this.showBasicResult(result);
+                this.onUpdate({
+                    formattedValue: result.formattedValue,
+                    details: `${result.bandCount}-band resistor code`,
+                    colors: result.colors,
+                    calculation: result
+                });
+            } else {
+                this.showError(result.error);
+                this.onUpdate({
+                    formattedValue: 'Error',
+                    details: result.error,
+                    colors: ['black', 'black', 'black', 'brown']
+                });
+            }
+        } catch (e) {
+            console.error(e);
+            this.showError('Calculation error');
         }
+    }
+
+    updateBandPreferenceButtons() {
+        this.container.querySelectorAll('.band-preference-btn').forEach(btn => {
+            const isActive = parseInt(btn.dataset.bands) === this.preferredBandCount;
+            btn.classList.toggle('active', isActive);
+        });
     }
 
     showBasicResult(result) {
@@ -229,17 +230,16 @@ export class ResistanceToColorCalculator {
 
         if (resultsContainer && primaryResult) {
             primaryResult.innerHTML = `
-                <div class="flex items-center space-x-4">
-                    <div class="flex space-x-1 p-2 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="display: flex; gap: 4px; padding: 0.5rem; background: rgba(0,0,0,0.3); border-radius: 6px; border: 1px solid var(--color-border);">
                         ${result.colors.map(color => `
-                            <div class="w-6 h-8 rounded shadow-sm border border-slate-600/30" 
-                                 style="background-color: ${this.calculator.getColorValue(color)}"
+                            <div style="width: 20px; height: 32px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); background-color: ${this.calculator.getColorValue(color)};" 
                                  title="${color}"></div>
                         `).join('')}
                     </div>
                     <div>
-                        <p class="font-bold text-slate-200 text-lg">${result.formattedValue}</p>
-                        <p class="text-sm text-slate-400">${result.bandCount}-band resistor</p>
+                        <p style="font-weight: 700; color: var(--color-text-main); font-size: 1.1rem;">${result.formattedValue}</p>
+                        <p style="font-size: 0.85rem; color: var(--color-text-secondary);">${result.bandCount}-band resistor</p>
                     </div>
                 </div>
             `;
@@ -279,22 +279,21 @@ export class ResistanceToColorCalculator {
         const alternatives = results.slice(1, 4); // Show up to 3 alternatives
 
         alternativesContent.innerHTML = alternatives.map(result => `
-            <div class="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg border border-slate-700/50 hover:bg-slate-800 transition-colors">
-                <div class="flex items-center space-x-3">
-                    <div class="flex space-x-1">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem; background: rgba(255,255,255,0.03); border-radius: 6px; border: 1px solid var(--color-border); transition: all 0.2s;">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="display: flex; gap: 2px;">
                         ${result.colors.map(color => `
-                            <div class="w-3 h-4 rounded-sm border border-slate-600/30" 
-                                 style="background-color: ${this.calculator.getColorValue(color)}"
+                            <div style="width: 12px; height: 16px; border-radius: 2px; border: 1px solid rgba(255,255,255,0.1); background-color: ${this.calculator.getColorValue(color)};" 
                                  title="${color}"></div>
                         `).join('')}
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-slate-300">${result.formattedValue}</p>
-                        <p class="text-xs text-slate-500">${result.bandCount}-band</p>
+                        <p style="font-size: 0.9rem; font-weight: 500; color: var(--color-text-main);">${result.formattedValue}</p>
+                        <p style="font-size: 0.75rem; color: var(--color-text-muted);">${result.bandCount}-band</p>
                     </div>
                 </div>
-                <div class="text-right">
-                    <p class="text-xs text-slate-400">Accuracy: <span class="text-primary-400">${result.accuracy}%</span></p>
+                <div style="text-align: right;">
+                    <p style="font-size: 0.75rem; color: var(--color-text-muted);">Accuracy: <span style="color: var(--color-primary);">${result.accuracy}%</span></p>
                 </div>
             </div>
         `).join('');
@@ -328,14 +327,14 @@ export class ResistanceToColorCalculator {
 
         if (resultsContainer && primaryResult) {
             primaryResult.innerHTML = `
-                <div class="text-red-400 bg-red-900/20 p-3 rounded-lg border border-red-500/30">
-                    <p class="font-semibold flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div style="color: #f87171; background: rgba(248, 113, 113, 0.1); padding: 0.75rem; border-radius: 6px; border: 1px solid rgba(248, 113, 113, 0.2);">
+                    <p style="font-weight: 600; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                        <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                         Cannot determine color code
                     </p>
-                    <p class="text-sm mt-1 opacity-90">${error || 'This value cannot be represented with standard resistor colors.'}</p>
+                    <p style="font-size: 0.9rem; opacity: 0.9;">${error || 'This value cannot be represented with standard resistor colors.'}</p>
                 </div>
             `;
 
