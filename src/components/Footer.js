@@ -85,12 +85,9 @@ export class Footer {
                                 for the electronics community.
                             </p>
                             <div class="space-y-3">
-                                <a href="https://rsmk.me" 
-                                   class="inline-flex items-center gap-2 text-sm font-medium text-primary-400 hover:text-primary-300 transition-colors">
-                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    Visit My Portfolio
+                                <a href="https://rsmk.me" target="_blank" rel="noopener noreferrer" 
+                                   class="inline-block transition-transform hover:scale-110">
+                                    <img src="/rsmk_logo.png" alt="RSMK Logo" class="h-10 w-auto" />
                                 </a>
                                 <p class="text-sm text-slate-500">
                                     &copy; 2025 RSMK. All rights reserved.

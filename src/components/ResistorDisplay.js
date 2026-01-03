@@ -63,8 +63,8 @@ export class ResistorDisplay {
         const bandSpacing = this.calculateBandSpacing();
 
         return `
-            <div class="resistor-container">
-                <svg width="${bodyWidth + leadLength * 2}" height="${bodyHeight + 20}" class="resistor-svg filter drop-shadow-lg">
+            <div class="resistor-container w-full">
+                <svg viewBox="0 0 ${bodyWidth + leadLength * 2} ${bodyHeight + 20}" class="resistor-svg w-full h-auto filter drop-shadow-lg max-w-[400px] mx-auto block">
                     <!-- Left lead -->
                     <rect x="0" y="${bodyHeight / 2 - 1.5}" width="${leadLength}" height="3" 
                           fill="url(#leadGradient)" rx="1.5"/>

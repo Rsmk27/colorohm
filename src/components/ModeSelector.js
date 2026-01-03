@@ -18,41 +18,41 @@ export class ModeSelector {
                 
                 <div class="space-y-4">
                     <!-- Main Mode Selection -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-3 gap-2 md:gap-4">
                         <button 
                             data-mode="color-to-resistance" 
-                            class="mode-btn active group relative flex flex-col items-center p-5 rounded-xl border transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 overflow-hidden"
+                            class="mode-btn active group relative flex flex-col items-center p-2 md:p-5 rounded-xl border transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 overflow-hidden"
                         >
                             <div class="absolute inset-0 bg-gradient-to-br from-primary-500/0 to-primary-500/0 group-hover:from-primary-500/10 group-hover:to-primary-600/10 transition-all duration-300"></div>
-                            <svg class="w-10 h-10 mb-3 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-6 h-6 md:w-10 md:h-10 mb-2 md:mb-3 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v6a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
                             </svg>
-                            <span class="font-semibold text-base relative z-10">Color to Resistance</span>
-                            <span class="text-sm text-slate-400 mt-1 relative z-10">Read resistor bands</span>
+                            <span class="font-semibold text-xs md:text-base text-center relative z-10 leading-tight">Color to Resistance</span>
+                            <span class="text-sm text-slate-400 mt-1 relative z-10 hidden md:block">Read resistor bands</span>
                         </button>
                         
                         <button 
                             data-mode="resistance-to-color" 
-                            class="mode-btn group relative flex flex-col items-center p-5 rounded-xl border transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 overflow-hidden"
+                            class="mode-btn group relative flex flex-col items-center p-2 md:p-5 rounded-xl border transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 overflow-hidden"
                         >
                             <div class="absolute inset-0 bg-gradient-to-br from-primary-500/0 to-primary-500/0 group-hover:from-primary-500/10 group-hover:to-primary-600/10 transition-all duration-300"></div>
-                            <svg class="w-10 h-10 mb-3 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-6 h-6 md:w-10 md:h-10 mb-2 md:mb-3 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
                             </svg>
-                            <span class="font-semibold text-base relative z-10">Resistance to Color</span>
-                            <span class="text-sm text-slate-400 mt-1 relative z-10">Find color bands</span>
+                            <span class="font-semibold text-xs md:text-base text-center relative z-10 leading-tight">Resistance to Color</span>
+                            <span class="text-sm text-slate-400 mt-1 relative z-10 hidden md:block">Find color bands</span>
                         </button>
                         
                         <button 
                             data-mode="smd-calculator" 
-                            class="mode-btn group relative flex flex-col items-center p-5 rounded-xl border transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 overflow-hidden"
+                            class="mode-btn group relative flex flex-col items-center p-2 md:p-5 rounded-xl border transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 overflow-hidden"
                         >
                             <div class="absolute inset-0 bg-gradient-to-br from-primary-500/0 to-primary-500/0 group-hover:from-primary-500/10 group-hover:to-primary-600/10 transition-all duration-300"></div>
-                            <svg class="w-10 h-10 mb-3 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-6 h-6 md:w-10 md:h-10 mb-2 md:mb-3 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
                             </svg>
-                            <span class="font-semibold text-base relative z-10">SMD Calculator</span>
-                            <span class="text-sm text-slate-400 mt-1 relative z-10">Surface mount codes</span>
+                            <span class="font-semibold text-xs md:text-base text-center relative z-10 leading-tight">SMD Calculator</span>
+                            <span class="text-sm text-slate-400 mt-1 relative z-10 hidden md:block">Surface mount codes</span>
                         </button>
                     </div>
                     
