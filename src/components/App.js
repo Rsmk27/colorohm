@@ -7,6 +7,7 @@ import { SMDCalculator } from './SMDCalculator.js';
 import { Footer } from './Footer.js';
 import { Docs } from './Docs.js';
 import { About } from './About.js';
+import { AndroidApp } from './AndroidApp.js';
 
 export class App {
     constructor(container, calculator) {
@@ -53,6 +54,9 @@ export class App {
 
                     <!-- About View -->
                     <div id="about-view" class="view-section hidden"></div>
+
+                    <!-- Android App View -->
+                    <div id="app-view" class="view-section hidden"></div>
                 </main>
                 
                 <div id="footer" class="footer-section"></div>
@@ -107,6 +111,10 @@ export class App {
 
         this.components.about = new About(
             document.getElementById('about-view')
+        );
+
+        this.components.androidApp = new AndroidApp(
+            document.getElementById('app-view')
         );
 
         // Initialize all components
@@ -215,7 +223,7 @@ export class App {
 
     handleNavigation(page) {
         // Hide all views
-        ['home-view', 'docs-view', 'about-view'].forEach(viewId => {
+        ['home-view', 'docs-view', 'about-view', 'app-view'].forEach(viewId => {
             const el = document.getElementById(viewId);
             if (el) el.classList.add('hidden');
         });

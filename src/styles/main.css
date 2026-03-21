@@ -303,6 +303,29 @@ body {
     transform: translateY(0);
 }
 
+.apk-download-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary);
+    color: #000;
+    text-decoration: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    transition: all var(--transition-fast);
+}
+
+.apk-download-btn:hover {
+    background: #4de2ff;
+    box-shadow: 0 0 15px var(--color-primary-glow);
+    transform: translateY(-1px);
+}
+
+.apk-download-btn:active {
+    transform: translateY(0);
+}
+
 /* Animations */
 @keyframes slideDown {
     from {
@@ -486,6 +509,10 @@ option {
     .mode-btn {
         min-width: 120px;
         flex-shrink: 0;
+    }
+
+    .apk-download-btn {
+        width: 100%;
     }
 
     .info-grid {

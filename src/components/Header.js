@@ -24,6 +24,7 @@ export class Header {
                 
                 <div class="nav-links">
                     <a href="#" data-page="home" class="nav-link active">Calculator</a>
+                    <a href="#" data-page="app" class="nav-link">App</a>
                     <a href="#" data-page="docs" class="nav-link">Docs</a>
                     <a href="#" data-page="about" class="nav-link">About</a>
                 </div>
