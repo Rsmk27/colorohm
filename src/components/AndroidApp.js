@@ -44,12 +44,12 @@ export class AndroidApp {
 
                     <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center;">
                         <a
-                            href="https://github.com/Rsmk27/colorohm-reactapp/releases/download/v1.2.0/ColourOhm-v1.2.0.apk"
+                            href="https://github.com/Rsmk27/colorohm-reactapp/releases/download/v1.2.1/ColorOhm.v1.2.1.apk"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="apk-download-btn"
                         >
-                            Download APK (v1.2.0)
+                            Download APK (v1.2.1)
                         </a>
                         <span style="font-size: 0.88rem; color: var(--color-text-muted);">Direct download from GitHub Releases</span>
                     </div>
