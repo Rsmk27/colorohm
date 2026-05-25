@@ -42,14 +42,14 @@ export class AndroidApp {
                 }
                 .version-title .badge {
                     font-size: 0.75rem;
-                    background: rgba(0, 180, 216, 0.15);
-                    color: var(--color-primary, #00b4d8);
+                    background: rgba(37, 99, 235, 0.15);
+                    color: var(--color-primary, #2563eb);
                     padding: 0.3rem 0.8rem;
                     border-radius: 20px;
                     font-weight: 700;
                     letter-spacing: 0.5px;
                     text-transform: uppercase;
-                    border: 1px solid rgba(0, 180, 216, 0.3);
+                    border: 1px solid rgba(37, 99, 235, 0.3);
                 }
                 .version-date {
                     font-size: 0.9rem;
@@ -63,7 +63,7 @@ export class AndroidApp {
                 }
                 .feature-group h4 {
                     font-size: 1rem;
-                    color: var(--color-primary, #00b4d8);
+                    color: var(--color-primary, #2563eb);
                     margin-bottom: 1rem;
                     font-weight: 700;
                     display: flex;
@@ -87,7 +87,7 @@ export class AndroidApp {
                     content: "▹";
                     position: absolute;
                     left: 0;
-                    color: var(--color-primary, #00b4d8);
+                    color: var(--color-primary, #2563eb);
                     font-weight: bold;
                     font-size: 1.1rem;
                 }
@@ -127,18 +127,18 @@ export class AndroidApp {
                 <!-- Hero Section -->
                 <div class="card-glass slide-up" style="padding: 3rem 2.5rem; margin-bottom: 3rem; position: relative; overflow: hidden;">
                     <!-- Decorative Background element -->
-                    <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: var(--color-primary, #00b4d8); filter: blur(100px); opacity: 0.15; border-radius: 50%; pointer-events: none;"></div>
+                    <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: var(--color-primary, #2563eb); filter: blur(100px); opacity: 0.15; border-radius: 50%; pointer-events: none;"></div>
                     
                     <div class="app-hero-container">
                         <div class="app-hero-content">
                             <div style="display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.5rem;">
-                                <div style="width: 88px; height: 88px; border-radius: 22px; background: linear-gradient(135deg, var(--color-primary, #00b4d8), #0077B6); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 32px var(--color-primary-glow, rgba(0, 180, 216, 0.4)); flex-shrink: 0; position: relative;">
+                                <div style="width: 88px; height: 88px; border-radius: 22px; background: linear-gradient(135deg, var(--color-primary, #2563eb), #0077B6); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 32px var(--color-primary-glow, rgba(37, 99, 235, 0.4)); flex-shrink: 0; position: relative;">
                                     <div style="position: absolute; inset: 0; border-radius: inherit; border: 1px solid rgba(255,255,255,0.2);"></div>
                                     <img src="/favicon.png" alt="ColorOhm App Icon" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;" />
                                 </div>
                                 <div>
                                     <h2 style="font-size: 2.75rem; font-weight: 800; color: var(--color-text-main, #ffffff); line-height: 1.1; margin: 0; letter-spacing: -0.5px;">ColorOhm App</h2>
-                                    <p style="color: var(--color-primary, #00b4d8); margin-top: 0.5rem; font-size: 1.15rem; font-weight: 600;">Your electronics toolkit, reimagined for mobile.</p>
+                                    <p style="color: var(--color-primary, #2563eb); margin-top: 0.5rem; font-size: 1.15rem; font-weight: 600;">Your electronics toolkit, reimagined for mobile.</p>
                                 </div>
                             </div>
 
@@ -153,7 +153,7 @@ export class AndroidApp {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     class="apk-download-btn"
-                                    style="padding: 0.85rem 1.75rem; background: linear-gradient(135deg, var(--color-primary, #00b4d8), #0077b6); color: #fff; font-weight: 700; font-size: 1.05rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 6px 20px rgba(0, 180, 216, 0.35); text-shadow: 0 1px 2px rgba(0,0,0,0.2);"
+                                    style="padding: 0.85rem 1.75rem; background: linear-gradient(135deg, var(--color-primary, #2563eb), #0077b6); color: #fff; font-weight: 700; font-size: 1.05rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35); text-shadow: 0 1px 2px rgba(0,0,0,0.2);"
                                 >
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                                     Download APK v1.2.1
@@ -184,7 +184,7 @@ export class AndroidApp {
                                 <div style="flex: 1; border-radius: 12px; background: rgba(255,255,255,0.03);"></div>
                                 <!-- bottom nav tabs -->
                                 <div style="height: 40px; display: flex; justify-content: space-around; align-items: center; padding: 0 10px; border-top: 1px solid rgba(255,255,255,0.05);">
-                                    <div style="width: 20px; height: 20px; border-radius: 50%; background: var(--color-primary, #00b4d8);"></div>
+                                    <div style="width: 20px; height: 20px; border-radius: 50%; background: var(--color-primary, #2563eb);"></div>
                                     <div style="width: 20px; height: 20px; border-radius: 4px; background: rgba(255,255,255,0.2);"></div>
                                     <div style="width: 20px; height: 20px; border-radius: 4px; background: rgba(255,255,255,0.2);"></div>
                                 </div>
@@ -194,7 +194,7 @@ export class AndroidApp {
                 </div>
 
                 <div class="slide-up" style="animation-delay: 0.15s;">
-                    <h3 style="font-size: 1.75rem; color: var(--color-text-main, #ffffff); margin-bottom: 2rem; border-left: 5px solid var(--color-primary, #00b4d8); padding-left: 1.25rem; font-weight: 800; letter-spacing: -0.5px;">Changelog & Updates</h3>
+                    <h3 style="font-size: 1.75rem; color: var(--color-text-main, #ffffff); margin-bottom: 2rem; border-left: 5px solid var(--color-primary, #2563eb); padding-left: 1.25rem; font-weight: 800; letter-spacing: -0.5px;">Changelog & Updates</h3>
 
                     <!-- v1.2.1 -->
                     <div class="version-card">

@@ -8,6 +8,7 @@ import { Footer } from './Footer.js';
 import { Docs } from './Docs.js';
 import { About } from './About.js';
 import { AndroidApp } from './AndroidApp.js';
+import { ManiChatbot } from './ManiChatbot.js';
 
 export class App {
     constructor(container, calculator) {
@@ -15,6 +16,7 @@ export class App {
         this.calculator = calculator;
         this.currentMode = 'color-to-resistance';
         this.currentBandCount = 4;
+        this.currentPage = 'home';
         this.components = {};
     }
 
@@ -115,6 +117,11 @@ export class App {
 
         this.components.androidApp = new AndroidApp(
             document.getElementById('app-view')
+        );
+
+        this.components.maniChatbot = new ManiChatbot(
+            this.container,
+            this.getAppContext.bind(this)
         );
 
         // Initialize all components
@@ -221,7 +228,16 @@ export class App {
         });
     }
 
+    getAppContext() {
+        return {
+            currentMode: this.currentMode,
+            currentBandCount: this.currentBandCount,
+            currentPage: this.currentPage || 'home'
+        };
+    }
+
     handleNavigation(page) {
+        this.currentPage = page;
         // Hide all views
         ['home-view', 'docs-view', 'about-view', 'app-view'].forEach(viewId => {
             const el = document.getElementById(viewId);
