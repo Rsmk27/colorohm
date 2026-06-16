@@ -1,14 +1,14 @@
 export class AndroidApp {
-    constructor(container) {
-        this.container = container;
-    }
+  constructor(container) {
+    this.container = container;
+  }
 
-    init() {
-        this.render();
-    }
+  init() {
+    this.render();
+  }
 
-    render() {
-        this.container.innerHTML = `
+  render() {
+    this.container.innerHTML = `
             <style>
                 .version-card {
                     background: rgba(255, 255, 255, 0.03);
@@ -152,8 +152,7 @@ export class AndroidApp {
                                     href="https://github.com/Rsmk27/colorohm-reactapp/releases/download/v1.2.1/ColorOhm.v1.2.1.apk"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    class="apk-download-btn"
-                                    style="padding: 0.85rem 1.75rem; background: linear-gradient(135deg, var(--color-primary, #2563eb), #0077b6); color: #fff; font-weight: 700; font-size: 1.05rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35); text-shadow: 0 1px 2px rgba(0,0,0,0.2);"
+                                    class="apk-download-btn app-hero-download-btn"
                                 >
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                                     Download APK v1.2.1
@@ -294,5 +293,5 @@ export class AndroidApp {
                 </div>
             </div>
         `;
-    }
+  }
 }
