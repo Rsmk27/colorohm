@@ -1,3 +1,4 @@
+import { escapeHTML } from '../utils/escape.js';
 export class SMDCalculator {
     constructor(container, calculator, onUpdate) {
         this.container = container;
@@ -272,20 +273,20 @@ export class SMDCalculator {
                 title: 'Decoded Resistance',
                 content: `
                     <div style="text-align: center;">
-                        <p style="font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; letter-spacing: -0.02em;">${result.formattedValue}</p>
-                        <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 1rem;">${result.details}</p>
+                        <p style="font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; letter-spacing: -0.02em;">${escapeHTML(result.formattedValue)}</p>
+                        <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 1rem;">${escapeHTML(result.details)}</p>
                         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; font-size: 0.75rem; border-top: 1px solid var(--color-border); padding-top: 0.75rem;">
                             <div>
                                 <span style="display: block; color: var(--color-text-muted); text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.05em;">Code</span>
-                                <span style="font-family: var(--font-mono); color: var(--color-text-main);">${code}</span>
+                                <span style="font-family: var(--font-mono); color: var(--color-text-main);">${escapeHTML(code)}</span>
                             </div>
                             <div>
                                 <span style="display: block; color: var(--color-text-muted); text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.05em;">Type</span>
-                                <span style="color: var(--color-text-main);">${this.codeType}</span>
+                                <span style="color: var(--color-text-main);">${escapeHTML(this.codeType)}</span>
                             </div>
                             <div>
                                 <span style="display: block; color: var(--color-text-muted); text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.05em;">Calc</span>
-                                <span style="font-family: var(--font-mono); color: var(--color-text-main);">${result.calculation}</span>
+                                <span style="font-family: var(--font-mono); color: var(--color-text-main);">${escapeHTML(result.calculation)}</span>
                             </div>
                         </div>
                     </div>
@@ -305,7 +306,7 @@ export class SMDCalculator {
                         <svg style="width: 20px; height: 20px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        <p style="font-size: 0.9rem; font-weight: 500;">${result.error}</p>
+                        <p style="font-size: 0.9rem; font-weight: 500;">${escapeHTML(result.error)}</p>
                     </div>
                 `
             });
@@ -344,17 +345,17 @@ export class SMDCalculator {
                 content: `
                     <div style="text-align: center;">
                         <div style="display: inline-block; background: #0f172a; color: #fff; padding: 0.75rem 2rem; border-radius: 6px; font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; border: 1px solid var(--color-border); box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);">
-                            ${result.code}
+                            ${escapeHTML(result.code)}
                         </div>
-                        <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 1rem;">${result.details}</p>
+                        <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 1rem;">${escapeHTML(result.details)}</p>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.75rem; border-top: 1px solid var(--color-border); padding-top: 0.75rem;">
                             <div>
                                 <span style="display: block; color: var(--color-text-muted); text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.05em;">Input</span>
-                                <span style="font-family: var(--font-mono); color: var(--color-text-main);">${this.calculator.formatResistance(resistanceOhms)}</span>
+                                <span style="font-family: var(--font-mono); color: var(--color-text-main);">${escapeHTML(this.calculator.formatResistance(resistanceOhms))}</span>
                             </div>
                             <div>
                                 <span style="display: block; color: var(--color-text-muted); text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.05em;">Actual</span>
-                                <span style="font-family: var(--font-mono); color: var(--color-text-main);">${result.formattedValue}</span>
+                                <span style="font-family: var(--font-mono); color: var(--color-text-main);">${escapeHTML(result.formattedValue)}</span>
                             </div>
                         </div>
                     </div>
@@ -374,7 +375,7 @@ export class SMDCalculator {
                         <svg style="width: 20px; height: 20px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        <p style="font-size: 0.9rem; font-weight: 500;">${result.error}</p>
+                        <p style="font-size: 0.9rem; font-weight: 500;">${escapeHTML(result.error)}</p>
                     </div>
                 `
             });
@@ -397,7 +398,7 @@ export class SMDCalculator {
                     <svg style="width: 16px; height: 16px; color: var(--color-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    ${result.title}
+                    ${escapeHTML(result.title)}
                 </h5>
                 ${result.content}
             `;

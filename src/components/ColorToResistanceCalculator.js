@@ -1,3 +1,4 @@
+import { escapeHTML } from '../utils/escape.js';
 export class ColorToResistanceCalculator {
     constructor(container, calculator, onUpdate) {
         this.container = container;
@@ -68,7 +69,7 @@ export class ColorToResistanceCalculator {
             <div class="control-group">
                 <label class="control-label" style="display: flex; align-items: center; gap: 0.5rem;">
                     <span style="width: 20px; height: 20px; background: var(--color-bg-main); border: 1px solid var(--color-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;">${index + 1}</span>
-                    ${band.label}
+                    ${escapeHTML(band.label)}
                     ${band.required ? '<span style="color: #ef4444;">*</span>' : ''}
                 </label>
                 <div style="position: relative;">
@@ -84,7 +85,7 @@ export class ColorToResistanceCalculator {
                     <svg style="width: 10px; height: 10px;" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
                     </svg>
-                    ${band.description}
+                    ${escapeHTML(band.description)}
                 </p>
             </div>
         `).join('');
@@ -241,8 +242,8 @@ export class ColorToResistanceCalculator {
 
         stepsContent.innerHTML = steps.map(step => `
             <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; margin-bottom: 0.5rem; last:border-bottom: 0;">
-                <span style="color: var(--color-text-secondary);">${step.description}</span>
-                <span style="font-family: var(--font-mono); color: var(--color-primary);">${step.value}</span>
+                <span style="color: var(--color-text-secondary);">${escapeHTML(step.description)}</span>
+                <span style="font-family: var(--font-mono); color: var(--color-primary);">${escapeHTML(step.value)}</span>
             </div>
         `).join('');
 

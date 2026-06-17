@@ -1,3 +1,4 @@
+import { escapeHTML } from '../utils/escape.js';
 export class ResistanceToColorCalculator {
     constructor(container, calculator, onUpdate) {
         this.container = container;
@@ -199,7 +200,7 @@ export class ResistanceToColorCalculator {
                 this.showBasicResult(result);
                 this.onUpdate({
                     formattedValue: result.formattedValue,
-                    details: `${result.bandCount}-band resistor code`,
+                    details: `${escapeHTML(result.bandCount)}-band resistor code`,
                     colors: result.colors,
                     calculation: result
                 });
@@ -234,12 +235,12 @@ export class ResistanceToColorCalculator {
                     <div style="display: flex; gap: 4px; padding: 0.5rem; background: rgba(0,0,0,0.3); border-radius: 6px; border: 1px solid var(--color-border);">
                         ${result.colors.map(color => `
                             <div style="width: 20px; height: 32px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); background-color: ${this.calculator.getColorValue(color)};" 
-                                 title="${color}"></div>
+                                 title="${escapeHTML(color)}"></div>
                         `).join('')}
                     </div>
                     <div>
-                        <p style="font-weight: 700; color: var(--color-text-main); font-size: 1.1rem;">${result.formattedValue}</p>
-                        <p style="font-size: 0.85rem; color: var(--color-text-secondary);">${result.bandCount}-band resistor</p>
+                        <p style="font-weight: 700; color: var(--color-text-main); font-size: 1.1rem;">${escapeHTML(result.formattedValue)}</p>
+                        <p style="font-size: 0.85rem; color: var(--color-text-secondary);">${escapeHTML(result.bandCount)}-band resistor</p>
                     </div>
                 </div>
             `;
@@ -284,12 +285,12 @@ export class ResistanceToColorCalculator {
                     <div style="display: flex; gap: 2px;">
                         ${result.colors.map(color => `
                             <div style="width: 12px; height: 16px; border-radius: 2px; border: 1px solid rgba(255,255,255,0.1); background-color: ${this.calculator.getColorValue(color)};" 
-                                 title="${color}"></div>
+                                 title="${escapeHTML(color)}"></div>
                         `).join('')}
                     </div>
                     <div>
-                        <p style="font-size: 0.9rem; font-weight: 500; color: var(--color-text-main);">${result.formattedValue}</p>
-                        <p style="font-size: 0.75rem; color: var(--color-text-muted);">${result.bandCount}-band</p>
+                        <p style="font-size: 0.9rem; font-weight: 500; color: var(--color-text-main);">${escapeHTML(result.formattedValue)}</p>
+                        <p style="font-size: 0.75rem; color: var(--color-text-muted);">${escapeHTML(result.bandCount)}-band</p>
                     </div>
                 </div>
                 <div style="text-align: right;">
@@ -334,7 +335,7 @@ export class ResistanceToColorCalculator {
                         </svg>
                         Cannot determine color code
                     </p>
-                    <p style="font-size: 0.9rem; opacity: 0.9;">${error || 'This value cannot be represented with standard resistor colors.'}</p>
+                    <p style="font-size: 0.9rem; opacity: 0.9;">${escapeHTML(error) || 'This value cannot be represented with standard resistor colors.'}</p>
                 </div>
             `;
 
