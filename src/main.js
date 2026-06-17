@@ -16,13 +16,4 @@ document.addEventListener('DOMContentLoaded', () => {
         // Could add error reporting here
     });
     
-    // Add performance monitoring
-    if ('performance' in window) {
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const perfData = performance.getEntriesByType('navigation')[0];
-                console.log('Page load time:', perfData.loadEventEnd - perfData.loadEventStart, 'ms');
-            }, 0);
-        });
-    }
 });
