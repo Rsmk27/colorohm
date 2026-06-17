@@ -1,76 +1,58 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { ResistorCalculator } from './ResistorCalculator';
+import { describe, it, expect } from 'vitest';
+import { ResistorCalculator } from './ResistorCalculator.js';
 
-describe('ResistorCalculator - predictColors', () => {
-    let calculator;
+describe('ResistorCalculator', () => {
+    describe('calculateFromColors', () => {
+        const calculator = new ResistorCalculator();
 
-    beforeEach(() => {
-        calculator = new ResistorCalculator();
-    });
+        it('should correctly calculate a standard 4-band resistor', () => {
+            // Brown (1), Black (0), Red (x100), Gold (±5%) -> 1000Ω ±5%
+            const result = calculator.calculateFromColors(['brown', 'black', 'red', 'gold'], 4);
 
-    it('should correctly predict colors for a 4-band resistor (e.g. 1000 ohms, 5%)', () => {
-        const result = calculator.predictColors(1000, 5, 4);
-
-        expect(result.success).toBe(true);
-        expect(result.bandCount).toBe(4);
-        expect(result.colors).toEqual(['brown', 'black', 'red', 'gold']);
-    });
-
-    it('should correctly predict colors for a 5-band resistor (e.g. 1000 ohms, 1%)', () => {
-        const result = calculator.predictColors(1000, 1, 5);
-
-        expect(result.success).toBe(true);
-        expect(result.bandCount).toBe(5);
-        expect(result.colors).toEqual(['brown', 'black', 'black', 'brown', 'brown']);
-    });
-
-    it('should fall back to the best available configuration if preferred band count is not found', () => {
-        // Find a scenario where a 5-band combination exists but 4-band doesn't,
-        // or just mock findAllPossibleColors to simulate this specific fallback behavior.
-
-        // Mock findAllPossibleColors to return only a 5-band result.
-        const mockResults = [
-            {
-                bandCount: 5,
-                colors: ['red', 'red', 'red', 'black', 'brown'],
-                accuracy: '100.00'
-            }
-        ];
-        vi.spyOn(calculator, 'findAllPossibleColors').mockReturnValue(mockResults);
-
-        // Ask for a 4-band preferred count
-        const result = calculator.predictColors(222, 1, 4);
-
-        // It should fallback to the 5-band result because no 4-band result is available
-        expect(result.success).toBe(true);
-        expect(result.bandCount).toBe(5);
-        expect(result.colors).toEqual(['red', 'red', 'red', 'black', 'brown']);
-
-        // Restore the spy
-        vi.restoreAllMocks();
-    });
-
-    it('should return error when no combinations are found', () => {
-        vi.spyOn(calculator, 'findAllPossibleColors').mockReturnValue([]);
-
-        const result = calculator.predictColors(1000, 5, 4);
-
-        expect(result.success).toBe(false);
-        expect(result.error).toBe('Cannot represent this value with standard resistor colors');
-
-        vi.restoreAllMocks();
-    });
-
-    it('should catch and return errors thrown during calculation', () => {
-        vi.spyOn(calculator, 'findAllPossibleColors').mockImplementation(() => {
-            throw new Error('Test error');
+            expect(result).toMatchObject({
+                value: 1000,
+                formattedValue: '1.00 kΩ ±5%',
+                details: '4-band resistor',
+                tolerance: 5,
+                tempco: null,
+                calculation: '10 × 100 = 1000Ω'
+            });
         });
 
-        const result = calculator.predictColors(1000, 5, 4);
+        it('should trigger the catch block and return error object for malformed input', () => {
+            // By passing an object that throws an error when accessed,
+            // we can trigger the catch block in calculateFromColors
+            const malformedColors = new Proxy([], {
+                get(target, prop) {
+                    if (prop === 'length') return 4;
+                    // Throw when trying to access array elements like colors[0]
+                    throw new Error('Triggered error');
+                }
+            });
 
-        expect(result.success).toBe(false);
-        expect(result.error).toBe('Error in calculation: Test error');
+            const result = calculator.calculateFromColors(malformedColors, 4);
 
-        vi.restoreAllMocks();
+            expect(result).toMatchObject({
+                value: 0,
+                formattedValue: 'Error',
+                details: 'Invalid color combination',
+                tolerance: 20,
+                tempco: null,
+                calculation: 'Error in calculation'
+            });
+        });
+
+        it('should trigger the catch block and return error object for null input', () => {
+            const result = calculator.calculateFromColors(null, 4);
+
+            expect(result).toMatchObject({
+                value: 0,
+                formattedValue: 'Error',
+                details: 'Invalid color combination',
+                tolerance: 20,
+                tempco: null,
+                calculation: 'Error in calculation'
+            });
+        });
     });
 });

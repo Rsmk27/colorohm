@@ -108,10 +108,9 @@ export class ResistorDisplay {
     }
 
     renderBands(leadLength, bodyWidth, bodyHeight, bandWidth, bandSpacing) {
-        let bandsHTML = '';
         const startX = leadLength + 20;
 
-        for (let i = 0; i < this.bandCount; i++) {
+        return Array.from({ length: this.bandCount }).map((_, i) => {
             const isToleranceBand = (this.bandCount === 4 && i === 3) ||
                 (this.bandCount === 5 && i === 4) ||
                 (this.bandCount === 6 && i === 5);
@@ -131,14 +130,12 @@ export class ResistorDisplay {
             const color = this.currentColors[i] || 'black';
             const colorValue = this.calculator.getColorValue(color);
 
-            bandsHTML += `
+            return `
                 <rect x="${xPosition}" y="15" width="${bandWidth}" height="${bodyHeight - 10}" 
                       fill="${colorValue}" stroke="rgba(0,0,0,0.3)" stroke-width="1" rx="2"
                       class="resistor-band" data-band="${i}"/>
             `;
-        }
-
-        return bandsHTML;
+        }).join('');
     }
 
     calculateBandSpacing() {

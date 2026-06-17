@@ -82,11 +82,10 @@ export class ModeSelector {
     }
 
     bindEvents() {
-        // Mode buttons
-        this.container.querySelectorAll('.mode-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                // Use currentTarget to ensure we get the button element, not a child
-                const mode = e.currentTarget.dataset.mode;
+        this.container.addEventListener('click', (e) => {
+            const modeBtn = e.target.closest('.mode-btn');
+            if (modeBtn) {
+                const mode = modeBtn.dataset.mode;
                 if (mode) {
                     this.currentMode = mode;
 
@@ -103,21 +102,21 @@ export class ModeSelector {
                     this.updateButtonStyles();
                     this.onModeChange(this.currentMode, this.currentBandCount);
                 }
-            });
-        });
+                return;
+            }
 
-        // Band count buttons
-        this.container.querySelectorAll('.band-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const bands = parseInt(e.target.dataset.bands);
+            const bandBtn = e.target.closest('.band-btn');
+            if (bandBtn) {
+                const bands = parseInt(bandBtn.dataset.bands);
                 if (bands) {
                     this.currentBandCount = bands;
                     this.updateButtonStyles();
                     this.onModeChange(this.currentMode, this.currentBandCount);
                 }
-            });
+            }
         });
     }
+
 
     updateButtonStyles() {
         // Update mode buttons

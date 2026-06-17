@@ -265,20 +265,18 @@ export class ResistorCalculator {
 
     // Find the best tolerance color for a given tolerance value
     findBestToleranceColor(tolerance) {
-        const toleranceColors = Object.keys(this.colorCodes).filter(
-            color => this.colorCodes[color].tolerance !== null
-        );
-        
         let bestColor = 'brown'; // Default to 1%
         let bestDiff = Infinity;
         
-        for (const color of toleranceColors) {
+        for (const color in this.colorCodes) {
             const colorTolerance = this.colorCodes[color].tolerance;
-            const diff = Math.abs(colorTolerance - tolerance);
-            
-            if (diff < bestDiff) {
-                bestDiff = diff;
-                bestColor = color;
+            if (colorTolerance !== null) {
+                const diff = Math.abs(colorTolerance - tolerance);
+
+                if (diff < bestDiff) {
+                    bestDiff = diff;
+                    bestColor = color;
+                }
             }
         }
         
@@ -342,6 +340,9 @@ export class ResistorCalculator {
     }
 
     decodeEIA96SMD(code) {
+        if (typeof code !== 'string') {
+            return { success: false, error: 'Invalid input type' };
+        }
         if (!/^\d{2}[A-Z]$/.test(code)) {
             return { success: false, error: 'Invalid EIA-96 code format (should be like 01A)' };
         }
