@@ -342,6 +342,9 @@ export class ResistorCalculator {
     }
 
     decodeEIA96SMD(code) {
+        if (typeof code !== 'string') {
+            return { success: false, error: 'Invalid input type' };
+        }
         if (!/^\d{2}[A-Z]$/.test(code)) {
             return { success: false, error: 'Invalid EIA-96 code format (should be like 01A)' };
         }
