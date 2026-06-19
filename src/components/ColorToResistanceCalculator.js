@@ -126,16 +126,12 @@ export class ColorToResistanceCalculator {
 
     renderColorOptions(type, bandIndex) {
         const colors = this.calculator.getColorsForType(type);
-        let options = '';
 
-        // Add default option
-        if (type === 'tempco') {
-            options += '<option value="">Not specified</option>';
-        } else {
-            options += '<option value="">Select color...</option>';
-        }
+        const defaultOption = type === 'tempco'
+            ? '<option value="">Not specified</option>'
+            : '<option value="">Select color...</option>';
 
-        colors.forEach(color => {
+        const colorOptions = colors.map(color => {
             const colorData = this.calculator.getColorData(color);
             const value = colorData[type];
             const selected = this.selectedColors[bandIndex] === color ? 'selected' : '';
@@ -152,10 +148,10 @@ export class ColorToResistanceCalculator {
                 displayText += ` (${value} ppm/°C)`;
             }
 
-            options += `<option value="${color}" ${selected} data-color="${this.calculator.getColorValue(color)}">${displayText}</option>`;
-        });
+            return `<option value="${color}" ${selected} data-color="${this.calculator.getColorValue(color)}">${displayText}</option>`;
+        }).join('');
 
-        return options;
+        return defaultOption + colorOptions;
     }
 
     formatMultiplier(value) {
