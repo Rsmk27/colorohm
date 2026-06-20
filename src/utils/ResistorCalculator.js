@@ -37,6 +37,19 @@ export class ResistorCalculator {
             'E': 10000, 'F': 100000, 'G': 1000000, 'H': 10000000
         };
 
+        // Precompute all EIA-96 combinations for faster encoding
+        this.eia96Combinations = [];
+        for (const [valueCode, baseValue] of Object.entries(this.eia96Values)) {
+            for (const [multiplierCode, multiplier] of Object.entries(this.eia96Multipliers)) {
+                this.eia96Combinations.push({
+                    code: valueCode + multiplierCode,
+                    calculatedValue: baseValue * multiplier,
+                    baseValue: baseValue,
+                    multiplier: multiplier
+                });
+            }
+        }
+
         // Standard E-series values
         this.standardValues = {
             E12: [1.0, 1.2, 1.5, 1.8, 2.2, 2.7, 3.3, 3.9, 4.7, 5.6, 6.8, 8.2],
@@ -265,20 +278,18 @@ export class ResistorCalculator {
 
     // Find the best tolerance color for a given tolerance value
     findBestToleranceColor(tolerance) {
-        const toleranceColors = Object.keys(this.colorCodes).filter(
-            color => this.colorCodes[color].tolerance !== null
-        );
-        
         let bestColor = 'brown'; // Default to 1%
         let bestDiff = Infinity;
         
-        for (const color of toleranceColors) {
+        for (const color in this.colorCodes) {
             const colorTolerance = this.colorCodes[color].tolerance;
-            const diff = Math.abs(colorTolerance - tolerance);
-            
-            if (diff < bestDiff) {
-                bestDiff = diff;
-                bestColor = color;
+            if (colorTolerance !== null) {
+                const diff = Math.abs(colorTolerance - tolerance);
+
+                if (diff < bestDiff) {
+                    bestDiff = diff;
+                    bestColor = color;
+                }
             }
         }
         
@@ -342,6 +353,9 @@ export class ResistorCalculator {
     }
 
     decodeEIA96SMD(code) {
+        if (typeof code !== 'string') {
+            return { success: false, error: 'Invalid input type' };
+        }
         if (!/^\d{2}[A-Z]$/.test(code)) {
             return { success: false, error: 'Invalid EIA-96 code format (should be like 01A)' };
         }
@@ -474,21 +488,13 @@ export class ResistorCalculator {
         let bestMatch = null;
         let bestDiff = Infinity;
 
-        // Try all EIA-96 combinations
-        for (const [valueCode, baseValue] of Object.entries(this.eia96Values)) {
-            for (const [multiplierCode, multiplier] of Object.entries(this.eia96Multipliers)) {
-                const calculatedValue = baseValue * multiplier;
-                const diff = Math.abs(calculatedValue - resistanceOhms);
+        // Try all EIA-96 combinations from precomputed array
+        for (const combo of this.eia96Combinations) {
+            const diff = Math.abs(combo.calculatedValue - resistanceOhms);
 
-                if (diff < bestDiff) {
-                    bestDiff = diff;
-                    bestMatch = {
-                        code: valueCode + multiplierCode,
-                        calculatedValue: calculatedValue,
-                        baseValue: baseValue,
-                        multiplier: multiplier
-                    };
-                }
+            if (diff < bestDiff) {
+                bestDiff = diff;
+                bestMatch = combo;
             }
         }
 
